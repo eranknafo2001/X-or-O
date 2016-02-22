@@ -1,6 +1,7 @@
 package xoro;
 
 import processing.core.*;
+import xoro.gameBoard.*;
 
 public class XOrO extends PApplet {
 
@@ -9,8 +10,6 @@ public class XOrO extends PApplet {
 	}
 
 	gamePlace[][] place = new gamePlace[3][3];
-	MenuMain mainMenu = new MenuMain();
-	VsComputerMenu vsComputerMenu = new VsComputerMenu();
 	Board board = new Board();
 	boolean ternX = true, isXWiner = true, isThereWiner = false, isOverNoWiner = false, isVSComputer = true,
 			way1 = false, menuModeMain = false, menuModeVsComputer = false, playMode = true;
@@ -28,23 +27,12 @@ public class XOrO extends PApplet {
 				place[i][g] = new gamePlace();
 			}
 		}
-		mainMenu.oneVsOneButton.rect.x = width / 2 - mainMenu.oneVsOneButton.rect.width / 2;
-		mainMenu.oneVsComputerButton.rect.x = width / 2 - mainMenu.oneVsComputerButton.rect.width / 2;
-		vsComputerMenu.easyButton.rect.x = width / 2 - vsComputerMenu.easyButton.rect.width / 2;
-		vsComputerMenu.hardButton.rect.x = width / 2 - vsComputerMenu.hardButton.rect.width / 2;
-		vsComputerMenu.normalButton.rect.x = width / 2 - vsComputerMenu.normalButton.rect.width / 2;
-		mainMenu.oneVsOneButton.rect.y = height / 2 + 100;
-		mainMenu.oneVsComputerButton.rect.y = height / 2 - 100;
 	}
 
 	public void draw() {
 		background(255);
 		if (menuModeMain) {
-			mainMenu.oneVsOneButton.rect.x = width / 2 - mainMenu.oneVsOneButton.rect.width / 2;
-			mainMenu.oneVsComputerButton.rect.x = width / 2 - mainMenu.oneVsComputerButton.rect.width / 2;
-			mainMenu.oneVsOneButton.rect.y = height / 2 + 100;
-			mainMenu.oneVsComputerButton.rect.y = height / 2 - 100;
-			drawMainMenu();
+
 		} else if (menuModeVsComputer) {
 
 		} else if (playMode) {
@@ -539,26 +527,26 @@ public class XOrO extends PApplet {
 								int[] placeneed1 = new int[2];
 								placeneed1[0] = lastPlaceForPlayer[3][0];
 								placeneed1[1] = lastPlaceForPlayer[2][1];
-								if(placeneed1[1]==1 || placeneed1[0]==1){
+								if (placeneed1[1] == 1 || placeneed1[0] == 1) {
 									placeneed1[0] = lastPlaceForPlayer[2][0];
 									placeneed1[1] = lastPlaceForPlayer[3][1];
 								}
 								place[placeneed1[0]][placeneed1[1]].isThereXOrO = true;
 								place[placeneed1[0]][placeneed1[1]].isThereX = false;
-								way1=false;
+								way1 = false;
 								return;
 							} else if ((lastPlaceForPlayer[3][0] == 1 || lastPlaceForPlayer[3][1] == 1)
 									&& (lastPlaceForPlayer[2][0] != 1 && lastPlaceForPlayer[2][1] != 1)) {
 								int[] placeneed1 = new int[2];
 								placeneed1[0] = lastPlaceForPlayer[2][0];
 								placeneed1[1] = lastPlaceForPlayer[3][1];
-								if(placeneed1[1]==1 || placeneed1[0]==1){
+								if (placeneed1[1] == 1 || placeneed1[0] == 1) {
 									placeneed1[0] = lastPlaceForPlayer[3][0];
 									placeneed1[1] = lastPlaceForPlayer[2][1];
 								}
 								place[placeneed1[0]][placeneed1[1]].isThereXOrO = true;
 								place[placeneed1[0]][placeneed1[1]].isThereX = false;
-								way1=false;
+								way1 = false;
 								return;
 							} else if (lastPlaceForPlayer[3][0] == 1
 									|| lastPlaceForPlayer[3][1] == 1 && (ternsPast == 1 || ternsPast == 2)) {
@@ -824,33 +812,4 @@ public class XOrO extends PApplet {
 		}
 	}
 
-	private void drawMainMenu() {
-		drawButtonOneVsOne();
-		drawButtonOneVsComputer();
-	}
-
-	private void drawButtonOneVsOne() {
-		fill(mainMenu.oneVsOneButton.rect.brush);
-		stroke(mainMenu.oneVsOneButton.rect.pen);
-		strokeWeight(mainMenu.oneVsOneButton.rect.penThickness);
-		rect(mainMenu.oneVsOneButton.rect.x, mainMenu.oneVsOneButton.rect.y, mainMenu.oneVsOneButton.rect.width,
-				mainMenu.oneVsOneButton.rect.height);
-		fill(mainMenu.oneVsOneButton.text.brush);
-		stroke(mainMenu.oneVsOneButton.text.brush);
-		loadFont(mainMenu.oneVsOneButton.text.font);
-		text(mainMenu.oneVsOneButton.text.text, mainMenu.oneVsOneButton.text.x, mainMenu.oneVsOneButton.text.y);
-	}
-
-	private void drawButtonOneVsComputer() {
-		fill(mainMenu.oneVsComputerButton.rect.brush);
-		stroke(mainMenu.oneVsComputerButton.rect.pen);
-		strokeWeight(mainMenu.oneVsComputerButton.rect.penThickness);
-		rect(mainMenu.oneVsComputerButton.rect.x, mainMenu.oneVsComputerButton.rect.y,
-				mainMenu.oneVsComputerButton.rect.width, mainMenu.oneVsComputerButton.rect.height);
-		fill(mainMenu.oneVsComputerButton.text.brush);
-		stroke(mainMenu.oneVsComputerButton.text.brush);
-		loadFont(mainMenu.oneVsComputerButton.text.font);
-		text(mainMenu.oneVsComputerButton.text.text, mainMenu.oneVsComputerButton.text.x,
-				mainMenu.oneVsComputerButton.text.y);
-	}
 }
