@@ -94,14 +94,16 @@ public class XOrO extends PApplet {
 					fill(0);
 					stroke(0);
 					strokeWeight(10);
-					line(-200, -200, 200, 200);
-					line(-200, 200, 200, -200);
+					int size1 = min(height, width)/2 - 50;
+					line(-size1, -size1, size1, size1);
+					line(-size1, size1, size1, -size1);
 					popMatrix();
 				} else {
 					fill(255);
 					stroke(0);
 					strokeWeight(10);
-					ellipse(width / 2, height / 2, 400, 400);
+					int size1 = min(height, width) - 100;
+					ellipse(width / 2, height / 2, size1, size1);
 				}
 			} else if (isOverNoWiner) {
 				fill(255);
@@ -109,10 +111,12 @@ public class XOrO extends PApplet {
 				strokeWeight(10);
 				pushMatrix();
 				translate(width / 4, height / 2);
-				line(-100, -100, 100, 100);
-				line(-100, 100, 100, -100);
+				int size1 = min(height, width)/4 - 15;
+				line(-size1, -size1, size1, size1);
+				line(-size1, size1, size1, -size1);
 				popMatrix();
-				ellipse((width / 4) * 3, height / 2, 200, 200);
+				size1 = min(height, width)/2 - 30;
+				ellipse((width / 4) * 3, height / 2, size1, size1);
 			}
 		}
 	}
@@ -746,8 +750,9 @@ public class XOrO extends PApplet {
 		fill(0);
 		stroke(0);
 		strokeWeight(10);
-		line(-50, -50, 50, 50);
-		line(-50, 50, 50, -50);
+		int size1 = min(board.rect[0][0].height, board.rect[0][0].width) / 2 - 15;
+		line(-size1, -size1, size1, size1);
+		line(-size1, size1, size1, -size1);
 		popMatrix();
 	}
 
@@ -755,7 +760,8 @@ public class XOrO extends PApplet {
 		fill(255);
 		stroke(0);
 		strokeWeight(10);
-		ellipse(x1, y1, 100, 100);
+		int size1 = min(board.rect[0][0].height, board.rect[0][0].width) - 30;
+		ellipse(x1, y1, size1, size1);
 	}
 
 	private int[] placeLocCacoletion(int loc1, int loc2) {
