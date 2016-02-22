@@ -11,6 +11,7 @@ public class XOrO extends PApplet {
 	}
 
 	mainMenu mainMenu = new mainMenu();
+	vsComputerMenu vsComputerMenu = new vsComputerMenu();
 	gamePlace[][] place = new gamePlace[3][3];
 	Board board = new Board();
 	boolean ternX = true, isXWiner = true, isThereWiner = false, isOverNoWiner = false, isVSComputer = true,
@@ -38,6 +39,24 @@ public class XOrO extends PApplet {
 		mainMenu.OneVSComputer.rect.x = width / 2 - mainMenu.OneVSComputer.rect.width / 2;
 		mainMenu.OneVSOne.rect.y = height / 4 - mainMenu.OneVSOne.rect.height / 2;
 		mainMenu.OneVSComputer.rect.y = height / 4 * 3 - mainMenu.OneVSComputer.rect.height / 2;
+		vsComputerMenu.easyMode.rect.height = 100;
+		vsComputerMenu.normalMode.rect.height = 100;
+		vsComputerMenu.hardMode.rect.height = 100;
+		vsComputerMenu.multiHardMode.rect.height = 100;
+		vsComputerMenu.easyMode.rect.width = 300;
+		vsComputerMenu.normalMode.rect.width = 300;
+		vsComputerMenu.hardMode.rect.width = 300;
+		vsComputerMenu.multiHardMode.rect.width = 300;
+		mainMenu.OneVSOne.rect.x = width / 2 - mainMenu.OneVSOne.rect.width / 2;
+		mainMenu.OneVSComputer.rect.x = width / 2 - mainMenu.OneVSComputer.rect.width / 2;
+		vsComputerMenu.easyMode.rect.x = width / 2 - vsComputerMenu.easyMode.rect.width / 2;
+		vsComputerMenu.normalMode.rect.x = width / 2 - vsComputerMenu.normalMode.rect.width / 2;
+		vsComputerMenu.hardMode.rect.x = width / 2 - vsComputerMenu.hardMode.rect.width / 2;
+		vsComputerMenu.multiHardMode.rect.x = width / 2 - vsComputerMenu.multiHardMode.rect.width / 2;
+		vsComputerMenu.easyMode.rect.y = height / 8 - vsComputerMenu.easyMode.rect.height / 2;
+		vsComputerMenu.normalMode.rect.y = height / 8 * 2 - vsComputerMenu.normalMode.rect.height / 2;
+		vsComputerMenu.hardMode.rect.y = height / 8 * 4 - vsComputerMenu.hardMode.rect.height / 2;
+		vsComputerMenu.multiHardMode.rect.y = height / 8 * 6 - vsComputerMenu.multiHardMode.rect.height / 2;
 	}
 
 	public void draw() {
@@ -49,7 +68,15 @@ public class XOrO extends PApplet {
 			mainMenu.OneVSComputer.rect.y = height / 4 * 3 - mainMenu.OneVSComputer.rect.height / 2;
 			drawMainMenu();
 		} else if (menuModeVsComputer) {
-
+			vsComputerMenu.easyMode.rect.x = width / 2 - vsComputerMenu.easyMode.rect.width / 2;
+			vsComputerMenu.normalMode.rect.x = width / 2 - vsComputerMenu.normalMode.rect.width / 2;
+			vsComputerMenu.hardMode.rect.x = width / 2 - vsComputerMenu.hardMode.rect.width / 2;
+			vsComputerMenu.multiHardMode.rect.x = width / 2 - vsComputerMenu.multiHardMode.rect.width / 2;
+			vsComputerMenu.easyMode.rect.y = height / 8 - vsComputerMenu.easyMode.rect.height / 2;
+			vsComputerMenu.normalMode.rect.y = height / 8 * 3 - vsComputerMenu.normalMode.rect.height / 2;
+			vsComputerMenu.hardMode.rect.y = height / 8 * 5 - vsComputerMenu.hardMode.rect.height / 2;
+			vsComputerMenu.multiHardMode.rect.y = height / 8 * 7 - vsComputerMenu.multiHardMode.rect.height / 2;
+			drawVsComputerMenu();
 		} else if (playMode) {
 			checkXWin();
 			checkYWin();
@@ -92,19 +119,49 @@ public class XOrO extends PApplet {
 
 	public void mousePressed() {
 		if (menuModeMain) {
-			if(pointInShape(mouseX, mouseY, mainMenu.OneVSComputer.rect.x, mainMenu.OneVSComputer.rect.y, mainMenu.OneVSComputer.rect.height, mainMenu.OneVSComputer.rect.width)){
-				isVSComputer=true;
-				menuModeMain=false;
-				playMode=false;
-				menuModeVsComputer=true;
-			}else if(pointInShape(mouseX, mouseY, mainMenu.OneVSOne.rect.x, mainMenu.OneVSOne.rect.y, mainMenu.OneVSOne.rect.height, mainMenu.OneVSOne.rect.width)){
-				isVSComputer=false;
-				menuModeMain=false;
-				playMode=true;
-				menuModeVsComputer=false;
+			if (pointInShape(mouseX, mouseY, mainMenu.OneVSComputer.rect.x, mainMenu.OneVSComputer.rect.y,
+					mainMenu.OneVSComputer.rect.height, mainMenu.OneVSComputer.rect.width)) {
+				isVSComputer = true;
+				menuModeMain = false;
+				playMode = false;
+				menuModeVsComputer = true;
+			} else if (pointInShape(mouseX, mouseY, mainMenu.OneVSOne.rect.x, mainMenu.OneVSOne.rect.y,
+					mainMenu.OneVSOne.rect.height, mainMenu.OneVSOne.rect.width)) {
+				isVSComputer = false;
+				menuModeMain = false;
+				playMode = true;
+				menuModeVsComputer = false;
 			}
 		} else if (menuModeVsComputer) {
-
+			if (pointInShape(mouseX, mouseY, vsComputerMenu.easyMode.rect.x, vsComputerMenu.easyMode.rect.y,
+					vsComputerMenu.easyMode.rect.height, vsComputerMenu.easyMode.rect.width)) {
+				isVSComputer = true;
+				menuModeMain = false;
+				playMode = true;
+				menuModeVsComputer = false;
+				computerMode=1;
+			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.normalMode.rect.x, vsComputerMenu.normalMode.rect.y,
+					vsComputerMenu.normalMode.rect.height, vsComputerMenu.normalMode.rect.width)) {
+				isVSComputer = true;
+				menuModeMain = false;
+				playMode = true;
+				menuModeVsComputer = false;
+				computerMode=2;
+			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.hardMode.rect.x, vsComputerMenu.hardMode.rect.y,
+					vsComputerMenu.hardMode.rect.height, vsComputerMenu.hardMode.rect.width)) {
+				isVSComputer = true;
+				menuModeMain = false;
+				playMode = true;
+				menuModeVsComputer = false;
+				computerMode=3;
+			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.multiHardMode.rect.x, vsComputerMenu.multiHardMode.rect.y,
+					vsComputerMenu.multiHardMode.rect.height, vsComputerMenu.multiHardMode.rect.width)) {
+				isVSComputer = true;
+				menuModeMain = false;
+				playMode = true;
+				menuModeVsComputer = false;
+				computerMode=4;
+			}
 		} else if (playMode) {
 			if (!isThereWiner && !isOverNoWiner) {
 				for (int i = 0; i < board.rect[0].length; i++) {
@@ -869,5 +926,43 @@ public class XOrO extends PApplet {
 				mainMenu.OneVSComputer.rect.height);
 		rect(mainMenu.OneVSOne.rect.x, mainMenu.OneVSOne.rect.y, mainMenu.OneVSOne.rect.width,
 				mainMenu.OneVSOne.rect.height);
+	}
+
+	private void drawVsComputerMenu() {
+		drawVsComputerMenuRects();
+		drawVsComputerMenuTexts();
+	}
+
+	private void drawVsComputerMenuTexts() {
+		PFont font;
+		font = createFont("Arial", 35);
+		textFont(font);
+		fill(255);
+		text(vsComputerMenu.easyMode.text,
+				vsComputerMenu.easyMode.rect.x + vsComputerMenu.easyMode.rect.width / 2
+						- textWidth(vsComputerMenu.easyMode.text) / 2,
+				vsComputerMenu.easyMode.rect.y + vsComputerMenu.easyMode.rect.height / 2);
+		text(vsComputerMenu.normalMode.text,
+				vsComputerMenu.normalMode.rect.x + vsComputerMenu.normalMode.rect.width / 2 - textWidth(vsComputerMenu.normalMode.text) / 2,
+				vsComputerMenu.normalMode.rect.y + vsComputerMenu.normalMode.rect.height / 2);
+		text(vsComputerMenu.hardMode.text,
+				vsComputerMenu.hardMode.rect.x + vsComputerMenu.hardMode.rect.width / 2 - textWidth(vsComputerMenu.hardMode.text) / 2,
+				vsComputerMenu.hardMode.rect.y + vsComputerMenu.hardMode.rect.height / 2);
+		text(vsComputerMenu.multiHardMode.text,
+				vsComputerMenu.multiHardMode.rect.x + vsComputerMenu.multiHardMode.rect.width / 2 - textWidth(vsComputerMenu.multiHardMode.text) / 2,
+				vsComputerMenu.multiHardMode.rect.y + vsComputerMenu.multiHardMode.rect.height / 2);
+	}
+
+	private void drawVsComputerMenuRects() {
+		fill(0);
+		noStroke();
+		rect(vsComputerMenu.easyMode.rect.x, vsComputerMenu.easyMode.rect.y, vsComputerMenu.easyMode.rect.width,
+				vsComputerMenu.easyMode.rect.height);
+		rect(vsComputerMenu.normalMode.rect.x, vsComputerMenu.normalMode.rect.y, vsComputerMenu.normalMode.rect.width,
+				vsComputerMenu.normalMode.rect.height);
+		rect(vsComputerMenu.hardMode.rect.x, vsComputerMenu.hardMode.rect.y, vsComputerMenu.hardMode.rect.width,
+				vsComputerMenu.hardMode.rect.height);
+		rect(vsComputerMenu.multiHardMode.rect.x, vsComputerMenu.multiHardMode.rect.y, vsComputerMenu.multiHardMode.rect.width,
+				vsComputerMenu.multiHardMode.rect.height);
 	}
 }
