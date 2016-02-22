@@ -2,6 +2,7 @@ package xoro;
 
 import processing.core.*;
 import xoro.gameBoard.*;
+import xoro.menus.*;
 
 public class XOrO extends PApplet {
 
@@ -9,6 +10,7 @@ public class XOrO extends PApplet {
 		PApplet.main(new String[] { xoro.XOrO.class.getName() });
 	}
 
+	mainMenu mainMenu = new mainMenu();
 	gamePlace[][] place = new gamePlace[3][3];
 	Board board = new Board();
 	boolean ternX = true, isXWiner = true, isThereWiner = false, isOverNoWiner = false, isVSComputer = true,
@@ -27,12 +29,25 @@ public class XOrO extends PApplet {
 				place[i][g] = new gamePlace();
 			}
 		}
+		menuModeMain = true;
+		mainMenu.OneVSOne.rect.height = 100;
+		mainMenu.OneVSComputer.rect.height = 100;
+		mainMenu.OneVSOne.rect.width = 300;
+		mainMenu.OneVSComputer.rect.width = 300;
+		mainMenu.OneVSOne.rect.x = width / 2 - mainMenu.OneVSOne.rect.width / 2;
+		mainMenu.OneVSComputer.rect.x = width / 2 - mainMenu.OneVSComputer.rect.width / 2;
+		mainMenu.OneVSOne.rect.y = height / 4 - mainMenu.OneVSOne.rect.height / 2;
+		mainMenu.OneVSComputer.rect.y = height / 4 * 3 - mainMenu.OneVSComputer.rect.height / 2;
 	}
 
 	public void draw() {
 		background(255);
 		if (menuModeMain) {
-
+			mainMenu.OneVSOne.rect.x = width / 2 - mainMenu.OneVSOne.rect.width / 2;
+			mainMenu.OneVSComputer.rect.x = width / 2 - mainMenu.OneVSComputer.rect.width / 2;
+			mainMenu.OneVSOne.rect.y = height / 4 - mainMenu.OneVSOne.rect.height / 2;
+			mainMenu.OneVSComputer.rect.y = height / 4 * 3 - mainMenu.OneVSComputer.rect.height / 2;
+			drawMainMenu();
 		} else if (menuModeVsComputer) {
 
 		} else if (playMode) {
@@ -76,46 +91,62 @@ public class XOrO extends PApplet {
 	}
 
 	public void mousePressed() {
-		if (!isThereWiner && !isOverNoWiner) {
-			for (int i = 0; i < board.rect[0].length; i++) {
-				for (int g = 0; g < board.rect.length; g++) {
-					if (pointInShape(mouseX, mouseY, board.rect[g][i].x, board.rect[g][i].y, board.rect[g][i].heigth,
-							board.rect[g][i].width) && place[g][i].isThereXOrO == false) {
-						place[g][i].isThereXOrO = true;
-						lastPlaceForPlayer[0][0] = lastPlaceForPlayer[1][0];
-						lastPlaceForPlayer[0][1] = lastPlaceForPlayer[1][1];
-						lastPlaceForPlayer[1][0] = lastPlaceForPlayer[2][0];
-						lastPlaceForPlayer[1][1] = lastPlaceForPlayer[2][1];
-						lastPlaceForPlayer[2][0] = lastPlaceForPlayer[3][0];
-						lastPlaceForPlayer[2][1] = lastPlaceForPlayer[3][1];
-						lastPlaceForPlayer[3][0] = g;
-						lastPlaceForPlayer[3][1] = i;
-						ternsPast++;
-						if (!isVSComputer) {
-							place[g][i].isThereX = ternX;
-							ternX = !ternX;
-						} else {
-							place[g][i].isThereX = true;
-							switch (computerMode) {
-							case 4:
-								coputerPlaceCacoletionMultiHard();
-								break;
-							case 3:
-								coputerPlaceCacoletionHard();
-								break;
-							case 2:
-								coputerPlaceCacoletionNormal();
-								break;
-							case 1:
-								coputerPlaceCacoletionEasy();
-								break;
+		if (menuModeMain) {
+			if(pointInShape(mouseX, mouseY, mainMenu.OneVSComputer.rect.x, mainMenu.OneVSComputer.rect.y, mainMenu.OneVSComputer.rect.height, mainMenu.OneVSComputer.rect.width)){
+				isVSComputer=true;
+				menuModeMain=false;
+				playMode=false;
+				menuModeVsComputer=true;
+			}else if(pointInShape(mouseX, mouseY, mainMenu.OneVSOne.rect.x, mainMenu.OneVSOne.rect.y, mainMenu.OneVSOne.rect.height, mainMenu.OneVSOne.rect.width)){
+				isVSComputer=false;
+				menuModeMain=false;
+				playMode=true;
+				menuModeVsComputer=false;
+			}
+		} else if (menuModeVsComputer) {
+
+		} else if (playMode) {
+			if (!isThereWiner && !isOverNoWiner) {
+				for (int i = 0; i < board.rect[0].length; i++) {
+					for (int g = 0; g < board.rect.length; g++) {
+						if (pointInShape(mouseX, mouseY, board.rect[g][i].x, board.rect[g][i].y,
+								board.rect[g][i].height, board.rect[g][i].width) && place[g][i].isThereXOrO == false) {
+							place[g][i].isThereXOrO = true;
+							lastPlaceForPlayer[0][0] = lastPlaceForPlayer[1][0];
+							lastPlaceForPlayer[0][1] = lastPlaceForPlayer[1][1];
+							lastPlaceForPlayer[1][0] = lastPlaceForPlayer[2][0];
+							lastPlaceForPlayer[1][1] = lastPlaceForPlayer[2][1];
+							lastPlaceForPlayer[2][0] = lastPlaceForPlayer[3][0];
+							lastPlaceForPlayer[2][1] = lastPlaceForPlayer[3][1];
+							lastPlaceForPlayer[3][0] = g;
+							lastPlaceForPlayer[3][1] = i;
+							ternsPast++;
+							if (!isVSComputer) {
+								place[g][i].isThereX = ternX;
+								ternX = !ternX;
+							} else {
+								place[g][i].isThereX = true;
+								switch (computerMode) {
+								case 4:
+									coputerPlaceCacoletionMultiHard();
+									break;
+								case 3:
+									coputerPlaceCacoletionHard();
+									break;
+								case 2:
+									coputerPlaceCacoletionNormal();
+									break;
+								case 1:
+									coputerPlaceCacoletionEasy();
+									break;
+								}
 							}
 						}
 					}
 				}
+			} else {
+				restartGame();
 			}
-		} else {
-			restartGame();
 		}
 	}
 
@@ -630,7 +661,7 @@ public class XOrO extends PApplet {
 		strokeWeight(5);
 		for (int i = 0; i < board.rect[0].length; i++) {
 			for (int g = 0; g < board.rect.length; g++) {
-				rect(board.rect[g][i].x, board.rect[g][i].y, board.rect[g][i].width, board.rect[g][i].heigth);
+				rect(board.rect[g][i].x, board.rect[g][i].y, board.rect[g][i].width, board.rect[g][i].height);
 			}
 		}
 	}
@@ -687,7 +718,7 @@ public class XOrO extends PApplet {
 	private void boardLocCacoletion() {
 		for (int i = 0; i < board.rect[0].length; i++) {
 			for (int g = 0; g < board.rect.length; g++) {
-				board.rect[g][i].heigth = height / 3;
+				board.rect[g][i].height = height / 3;
 				board.rect[g][i].width = width / 3;
 				board.rect[g][i].x = width / 3 * g;
 				board.rect[g][i].y = height / 3 * i;
@@ -812,4 +843,31 @@ public class XOrO extends PApplet {
 		}
 	}
 
+	private void drawMainMenu() {
+		drawMainMenuRects();
+		drawMainMenuTexts();
+	}
+
+	private void drawMainMenuTexts() {
+		PFont font;
+		font = createFont("Arial", 35);
+		textFont(font);
+		fill(255);
+		text(mainMenu.OneVSComputer.text,
+				mainMenu.OneVSComputer.rect.x + mainMenu.OneVSComputer.rect.width / 2
+						- textWidth(mainMenu.OneVSComputer.text) / 2,
+				mainMenu.OneVSComputer.rect.y + mainMenu.OneVSComputer.rect.height / 2);
+		text(mainMenu.OneVSOne.text,
+				mainMenu.OneVSOne.rect.x + mainMenu.OneVSOne.rect.width / 2 - textWidth(mainMenu.OneVSOne.text) / 2,
+				mainMenu.OneVSOne.rect.y + mainMenu.OneVSOne.rect.height / 2);
+	}
+
+	private void drawMainMenuRects() {
+		fill(0);
+		noStroke();
+		rect(mainMenu.OneVSComputer.rect.x, mainMenu.OneVSComputer.rect.y, mainMenu.OneVSComputer.rect.width,
+				mainMenu.OneVSComputer.rect.height);
+		rect(mainMenu.OneVSOne.rect.x, mainMenu.OneVSOne.rect.y, mainMenu.OneVSOne.rect.width,
+				mainMenu.OneVSOne.rect.height);
+	}
 }
