@@ -139,28 +139,29 @@ public class XOrO extends PApplet {
 				menuModeMain = false;
 				playMode = true;
 				menuModeVsComputer = false;
-				computerMode=1;
+				computerMode = 1;
 			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.normalMode.rect.x, vsComputerMenu.normalMode.rect.y,
 					vsComputerMenu.normalMode.rect.height, vsComputerMenu.normalMode.rect.width)) {
 				isVSComputer = true;
 				menuModeMain = false;
 				playMode = true;
 				menuModeVsComputer = false;
-				computerMode=2;
+				computerMode = 2;
 			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.hardMode.rect.x, vsComputerMenu.hardMode.rect.y,
 					vsComputerMenu.hardMode.rect.height, vsComputerMenu.hardMode.rect.width)) {
 				isVSComputer = true;
 				menuModeMain = false;
 				playMode = true;
 				menuModeVsComputer = false;
-				computerMode=3;
-			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.multiHardMode.rect.x, vsComputerMenu.multiHardMode.rect.y,
-					vsComputerMenu.multiHardMode.rect.height, vsComputerMenu.multiHardMode.rect.width)) {
+				computerMode = 3;
+			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.multiHardMode.rect.x,
+					vsComputerMenu.multiHardMode.rect.y, vsComputerMenu.multiHardMode.rect.height,
+					vsComputerMenu.multiHardMode.rect.width)) {
 				isVSComputer = true;
 				menuModeMain = false;
 				playMode = true;
 				menuModeVsComputer = false;
-				computerMode=4;
+				computerMode = 4;
 			}
 		} else if (playMode) {
 			if (!isThereWiner && !isOverNoWiner) {
@@ -943,13 +944,16 @@ public class XOrO extends PApplet {
 						- textWidth(vsComputerMenu.easyMode.text) / 2,
 				vsComputerMenu.easyMode.rect.y + vsComputerMenu.easyMode.rect.height / 2);
 		text(vsComputerMenu.normalMode.text,
-				vsComputerMenu.normalMode.rect.x + vsComputerMenu.normalMode.rect.width / 2 - textWidth(vsComputerMenu.normalMode.text) / 2,
+				vsComputerMenu.normalMode.rect.x + vsComputerMenu.normalMode.rect.width / 2
+						- textWidth(vsComputerMenu.normalMode.text) / 2,
 				vsComputerMenu.normalMode.rect.y + vsComputerMenu.normalMode.rect.height / 2);
 		text(vsComputerMenu.hardMode.text,
-				vsComputerMenu.hardMode.rect.x + vsComputerMenu.hardMode.rect.width / 2 - textWidth(vsComputerMenu.hardMode.text) / 2,
+				vsComputerMenu.hardMode.rect.x + vsComputerMenu.hardMode.rect.width / 2
+						- textWidth(vsComputerMenu.hardMode.text) / 2,
 				vsComputerMenu.hardMode.rect.y + vsComputerMenu.hardMode.rect.height / 2);
 		text(vsComputerMenu.multiHardMode.text,
-				vsComputerMenu.multiHardMode.rect.x + vsComputerMenu.multiHardMode.rect.width / 2 - textWidth(vsComputerMenu.multiHardMode.text) / 2,
+				vsComputerMenu.multiHardMode.rect.x + vsComputerMenu.multiHardMode.rect.width / 2
+						- textWidth(vsComputerMenu.multiHardMode.text) / 2,
 				vsComputerMenu.multiHardMode.rect.y + vsComputerMenu.multiHardMode.rect.height / 2);
 	}
 
@@ -962,7 +966,7 @@ public class XOrO extends PApplet {
 				vsComputerMenu.normalMode.rect.height);
 		rect(vsComputerMenu.hardMode.rect.x, vsComputerMenu.hardMode.rect.y, vsComputerMenu.hardMode.rect.width,
 				vsComputerMenu.hardMode.rect.height);
-		rect(vsComputerMenu.multiHardMode.rect.x, vsComputerMenu.multiHardMode.rect.y, vsComputerMenu.multiHardMode.rect.width,
-				vsComputerMenu.multiHardMode.rect.height);
+		rect(vsComputerMenu.multiHardMode.rect.x, vsComputerMenu.multiHardMode.rect.y,
+				vsComputerMenu.multiHardMode.rect.width, vsComputerMenu.multiHardMode.rect.height);
 	}
 }
