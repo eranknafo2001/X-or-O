@@ -16,7 +16,7 @@ public class XOrO extends PApplet {
 	Board board = new Board();
 	boolean ternX = true, isXWiner = true, isThereWiner = false, isOverNoWiner = false, isVSComputer = true,
 			way1 = false, menuModeMain = false, menuModeVsComputer = false, playMode = true;
-	int computerMode = 4, ternsPast = 0;
+	int computerMode = 4, ternsPast = 0, backgroundColor;
 	int[][] lastPlaceForPlayer = new int[4][2];
 
 	public void settings() {
@@ -32,13 +32,17 @@ public class XOrO extends PApplet {
 		}
 		setupMainMenu();
 		setupVsComputerMenu();
+		backgroundColor = color((int) random(0f, 255.9999999999999999999999f),
+				(int) random(0f, 255.9999999999999999999999f), (int) random(0f, 255.9999999999999999999999f));
 	}
 
 	public void draw() {
 		background(255);
 		if (menuModeMain) {
+			background(backgroundColor);
 			drawMainMenu();
 		} else if (menuModeVsComputer) {
+			background(backgroundColor);
 			drawVsComputerMenu();
 		} else if (playMode) {
 			checkXWin();
@@ -57,7 +61,7 @@ public class XOrO extends PApplet {
 					fill(0);
 					stroke(0);
 					strokeWeight(10);
-					int size1 = min(height, width)/2 - 50;
+					int size1 = min(height, width) / 2 - 50;
 					line(-size1, -size1, size1, size1);
 					line(-size1, size1, size1, -size1);
 					popMatrix();
@@ -74,11 +78,11 @@ public class XOrO extends PApplet {
 				strokeWeight(10);
 				pushMatrix();
 				translate(width / 4, height / 2);
-				int size1 = min(height, width)/4 - 15;
+				int size1 = min(height, width) / 4 - 15;
 				line(-size1, -size1, size1, size1);
 				line(-size1, size1, size1, -size1);
 				popMatrix();
-				size1 = min(height, width)/2 - 30;
+				size1 = min(height, width) / 2 - 30;
 				ellipse((width / 4) * 3, height / 2, size1, size1);
 			}
 		}
@@ -86,44 +90,51 @@ public class XOrO extends PApplet {
 
 	public void mousePressed() {
 		if (menuModeMain) {
-			if (pointInShape(mouseX, mouseY, mainMenu.OneVSComputer.rect.x, mainMenu.OneVSComputer.rect.y,
-					mainMenu.OneVSComputer.rect.height, mainMenu.OneVSComputer.rect.width)) {
+			if (pointInShape(mouseX, mouseY, mainMenu.getOneVSComputer().getRect().getX(),
+					mainMenu.getOneVSComputer().getRect().getY(), mainMenu.getOneVSComputer().getRect().getHeight(),
+					mainMenu.getOneVSComputer().getRect().getWidth())) {
 				isVSComputer = true;
 				menuModeMain = false;
 				playMode = false;
 				menuModeVsComputer = true;
-			} else if (pointInShape(mouseX, mouseY, mainMenu.OneVSOne.rect.x, mainMenu.OneVSOne.rect.y,
-					mainMenu.OneVSOne.rect.height, mainMenu.OneVSOne.rect.width)) {
+			} else if (pointInShape(mouseX, mouseY, mainMenu.getOneVSOne().getRect().getX(),
+					mainMenu.getOneVSOne().getRect().getY(), mainMenu.getOneVSOne().getRect().getHeight(),
+					mainMenu.getOneVSOne().getRect().getWidth())) {
 				isVSComputer = false;
 				menuModeMain = false;
 				playMode = true;
 				menuModeVsComputer = false;
 			}
 		} else if (menuModeVsComputer) {
-			if (pointInShape(mouseX, mouseY, vsComputerMenu.easyMode.rect.x, vsComputerMenu.easyMode.rect.y,
-					vsComputerMenu.easyMode.rect.height, vsComputerMenu.easyMode.rect.width)) {
+			if (pointInShape(mouseX, mouseY, vsComputerMenu.getEasyMode().getRect().getX(),
+					vsComputerMenu.getEasyMode().getRect().getY(), vsComputerMenu.getEasyMode().getRect().getHeight(),
+					vsComputerMenu.getEasyMode().getRect().getWidth())) {
 				isVSComputer = true;
 				menuModeMain = false;
 				playMode = true;
 				menuModeVsComputer = false;
 				computerMode = 1;
-			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.normalMode.rect.x, vsComputerMenu.normalMode.rect.y,
-					vsComputerMenu.normalMode.rect.height, vsComputerMenu.normalMode.rect.width)) {
+			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.getNormalMode().getRect().getX(),
+					vsComputerMenu.getNormalMode().getRect().getY(),
+					vsComputerMenu.getNormalMode().getRect().getHeight(),
+					vsComputerMenu.getNormalMode().getRect().getWidth())) {
 				isVSComputer = true;
 				menuModeMain = false;
 				playMode = true;
 				menuModeVsComputer = false;
 				computerMode = 2;
-			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.hardMode.rect.x, vsComputerMenu.hardMode.rect.y,
-					vsComputerMenu.hardMode.rect.height, vsComputerMenu.hardMode.rect.width)) {
+			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.getHardMode().getRect().getX(),
+					vsComputerMenu.getHardMode().getRect().getY(), vsComputerMenu.getHardMode().getRect().getHeight(),
+					vsComputerMenu.getHardMode().getRect().getWidth())) {
 				isVSComputer = true;
 				menuModeMain = false;
 				playMode = true;
 				menuModeVsComputer = false;
 				computerMode = 3;
-			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.multiHardMode.rect.x,
-					vsComputerMenu.multiHardMode.rect.y, vsComputerMenu.multiHardMode.rect.height,
-					vsComputerMenu.multiHardMode.rect.width)) {
+			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.getMultiHardMode().getRect().getX(),
+					vsComputerMenu.getMultiHardMode().getRect().getY(),
+					vsComputerMenu.getMultiHardMode().getRect().getHeight(),
+					vsComputerMenu.getMultiHardMode().getRect().getWidth())) {
 				isVSComputer = true;
 				menuModeMain = false;
 				playMode = true;
@@ -132,11 +143,12 @@ public class XOrO extends PApplet {
 			}
 		} else if (playMode) {
 			if (!isThereWiner && !isOverNoWiner) {
-				for (int i = 0; i < board.rect[0].length; i++) {
-					for (int g = 0; g < board.rect.length; g++) {
-						if (pointInShape(mouseX, mouseY, board.rect[g][i].x, board.rect[g][i].y,
-								board.rect[g][i].height, board.rect[g][i].width) && place[g][i].isThereXOrO == false) {
-							place[g][i].isThereXOrO = true;
+				for (int i = 0; i < board.getRect0Length(); i++) {
+					for (int g = 0; g < board.getRectLength(); g++) {
+						if (pointInShape(mouseX, mouseY, board.getRect(g, i).getX(), board.getRect(g, i).getY(),
+								board.getRect(g, i).getHeight(), board.getRect(g, i).getWidth())
+								&& place[g][i].getIsThereXOrO() == false) {
+							place[g][i].setThereXOrO(true);
 							lastPlaceForPlayer[0][0] = lastPlaceForPlayer[1][0];
 							lastPlaceForPlayer[0][1] = lastPlaceForPlayer[1][1];
 							lastPlaceForPlayer[1][0] = lastPlaceForPlayer[2][0];
@@ -147,10 +159,10 @@ public class XOrO extends PApplet {
 							lastPlaceForPlayer[3][1] = i;
 							ternsPast++;
 							if (!isVSComputer) {
-								place[g][i].isThereX = ternX;
+								place[g][i].setThereX(ternX);
 								ternX = !ternX;
 							} else {
-								place[g][i].isThereX = true;
+								place[g][i].setThereX(true);
 								switch (computerMode) {
 								case 4:
 									coputerPlaceCacoletionMultiHard();
@@ -177,42 +189,40 @@ public class XOrO extends PApplet {
 
 	private void coputerPlaceCacoletionEasy() {
 		int[] randomNumTemp = { (int) random(0, 2.999999f), (int) random(0, 2.999999f) };
-		int tempNum = 0;
-		for (int i = 0; i < board.rect[0].length; i++) {
-			for (int g = 0; g < board.rect.length; g++) {
-				if (place[g][i].isThereXOrO) {
-					tempNum++;
+		checkXWin();
+		checkYWin();
+		checkXY1Win();
+		checkXY2Win();
+		checkOverNoWiner();
+		if (!isOverNoWiner) {
+			if (!isThereWiner) {
+				if (!place[randomNumTemp[0]][randomNumTemp[1]].getIsThereXOrO()) {
+					place[randomNumTemp[0]][randomNumTemp[1]].setThereXOrO(true);
+					place[randomNumTemp[0]][randomNumTemp[1]].setThereX(false);
+				} else {
+					coputerPlaceCacoletionEasy();
 				}
-			}
-		}
-		if (tempNum < 9) {
-			if (!place[randomNumTemp[0]][randomNumTemp[1]].isThereXOrO) {
-				place[randomNumTemp[0]][randomNumTemp[1]].isThereXOrO = true;
-				place[randomNumTemp[0]][randomNumTemp[1]].isThereX = false;
-			} else {
-				coputerPlaceCacoletionEasy();
 			}
 		}
 	}
 
 	private void coputerPlaceCacoletionNormal() {
 		int[] randomNumTemp = { (int) random(0, 2.999999f), (int) random(0, 2.999999f) };
-		int tempNum = 0;
-		for (int i = 0; i < board.rect[0].length; i++) {
-			for (int g = 0; g < board.rect.length; g++) {
-				if (place[g][i].isThereXOrO) {
-					tempNum++;
-				}
-			}
-		}
-		if (tempNum < 9) {
-			if (!blockAndWin(true)) {
-				if (!blockAndWin(false)) {
-					if (!place[randomNumTemp[0]][randomNumTemp[1]].isThereXOrO) {
-						place[randomNumTemp[0]][randomNumTemp[1]].isThereXOrO = true;
-						place[randomNumTemp[0]][randomNumTemp[1]].isThereX = false;
-					} else {
-						coputerPlaceCacoletionEasy();
+		checkXWin();
+		checkYWin();
+		checkXY1Win();
+		checkXY2Win();
+		checkOverNoWiner();
+		if (!isOverNoWiner) {
+			if (!isThereWiner) {
+				if (!blockAndWin(true)) {
+					if (!blockAndWin(false)) {
+						if (!place[randomNumTemp[0]][randomNumTemp[1]].getIsThereXOrO()) {
+							place[randomNumTemp[0]][randomNumTemp[1]].setThereXOrO(true);
+							place[randomNumTemp[0]][randomNumTemp[1]].setThereX(false);
+						} else {
+							coputerPlaceCacoletionEasy();
+						}
 					}
 				}
 			}
@@ -223,8 +233,8 @@ public class XOrO extends PApplet {
 		for (int i = 0; i < place.length; i++) {
 			int XNum = 0, ONum = 0;
 			for (int g = 0; g < place[0].length; g++) {
-				if (place[g][i].isThereXOrO) {
-					if (place[g][i].isThereX) {
+				if (place[g][i].getIsThereXOrO()) {
+					if (place[g][i].isThereX()) {
 						XNum++;
 					} else {
 						ONum++;
@@ -242,8 +252,8 @@ public class XOrO extends PApplet {
 		for (int i = 0; i < place.length; i++) {
 			int XNum = 0, ONum = 0;
 			for (int g = 0; g < place[0].length; g++) {
-				if (place[i][g].isThereXOrO) {
-					if (place[i][g].isThereX) {
+				if (place[i][g].getIsThereXOrO()) {
+					if (place[i][g].isThereX()) {
 						XNum++;
 					} else {
 						ONum++;
@@ -260,8 +270,8 @@ public class XOrO extends PApplet {
 	private boolean checkXY1ForBlock() {
 		int XNum = 0, ONum = 0;
 		for (int i = 0; i < place.length; i++) {
-			if (place[i][i].isThereXOrO) {
-				if (place[i][i].isThereX) {
+			if (place[i][i].getIsThereXOrO()) {
+				if (place[i][i].isThereX()) {
 					XNum++;
 				} else {
 					ONum++;
@@ -278,8 +288,8 @@ public class XOrO extends PApplet {
 		int XNum = 0, ONum = 0;
 		int g = 2;
 		for (int i = 0; i < place.length;) {
-			if (place[g][i].isThereXOrO) {
-				if (place[g][i].isThereX) {
+			if (place[g][i].getIsThereXOrO()) {
+				if (place[g][i].isThereX()) {
 					XNum++;
 				} else {
 					ONum++;
@@ -312,34 +322,34 @@ public class XOrO extends PApplet {
 		}
 		if (onX != -1) {
 			for (int g = 0; g < place[0].length; g++) {
-				if (!place[g][onX].isThereXOrO) {
-					place[g][onX].isThereXOrO = true;
-					place[g][onX].isThereX = false;
+				if (!place[g][onX].getIsThereXOrO()) {
+					place[g][onX].setThereXOrO(true);
+					place[g][onX].setThereX(false);
 				}
 			}
 			return true;
 		} else if (onY != -1) {
 			for (int g = 0; g < place.length; g++) {
-				if (!place[onY][g].isThereXOrO) {
-					place[onY][g].isThereXOrO = true;
-					place[onY][g].isThereX = false;
+				if (!place[onY][g].getIsThereXOrO()) {
+					place[onY][g].setThereXOrO(true);
+					place[onY][g].setThereX(false);
 				}
 			}
 			return true;
 		} else if (onXY1) {
 			for (int i = 0; i < place.length; i++) {
-				if (!place[i][i].isThereXOrO) {
-					place[i][i].isThereXOrO = true;
-					place[i][i].isThereX = false;
+				if (!place[i][i].getIsThereXOrO()) {
+					place[i][i].setThereXOrO(true);
+					place[i][i].setThereX(false);
 				}
 			}
 			return true;
 		} else if (onXY2) {
 			int g = 2;
 			for (int i = 0; i < place.length;) {
-				if (!place[g][i].isThereXOrO) {
-					place[g][i].isThereXOrO = true;
-					place[g][i].isThereX = false;
+				if (!place[g][i].getIsThereXOrO()) {
+					place[g][i].setThereXOrO(true);
+					place[g][i].setThereX(false);
 				}
 				g--;
 				i++;
@@ -354,8 +364,8 @@ public class XOrO extends PApplet {
 		for (int i = 0; i < place.length; i++) {
 			int XNum = 0, ONum = 0;
 			for (int g = 0; g < place[0].length; g++) {
-				if (place[g][i].isThereXOrO) {
-					if (place[g][i].isThereX) {
+				if (place[g][i].getIsThereXOrO()) {
+					if (place[g][i].isThereX()) {
 						XNum++;
 					} else {
 						ONum++;
@@ -373,8 +383,8 @@ public class XOrO extends PApplet {
 		for (int i = 0; i < place.length; i++) {
 			int XNum = 0, ONum = 0;
 			for (int g = 0; g < place[0].length; g++) {
-				if (place[i][g].isThereXOrO) {
-					if (place[i][g].isThereX) {
+				if (place[i][g].getIsThereXOrO()) {
+					if (place[i][g].isThereX()) {
 						XNum++;
 					} else {
 						ONum++;
@@ -391,8 +401,8 @@ public class XOrO extends PApplet {
 	private boolean checkXY1ForOWin() {
 		int XNum = 0, ONum = 0;
 		for (int i = 0; i < place.length; i++) {
-			if (place[i][i].isThereXOrO) {
-				if (place[i][i].isThereX) {
+			if (place[i][i].getIsThereXOrO()) {
+				if (place[i][i].isThereX()) {
 					XNum++;
 				} else {
 					ONum++;
@@ -409,8 +419,8 @@ public class XOrO extends PApplet {
 		int XNum = 0, ONum = 0;
 		int g = 2;
 		for (int i = 0; i < place.length;) {
-			if (place[g][i].isThereXOrO) {
-				if (place[g][i].isThereX) {
+			if (place[g][i].getIsThereXOrO()) {
+				if (place[g][i].isThereX()) {
 					XNum++;
 				} else {
 					ONum++;
@@ -426,8 +436,8 @@ public class XOrO extends PApplet {
 	}
 
 	private boolean isPlayerInConer(int place1, int place2) {
-		for (int i = 0; i < board.rect[0].length; i += 2) {
-			for (int g = 0; g < board.rect.length; g += 2) {
+		for (int i = 0; i < board.getRect0Length(); i += 2) {
+			for (int g = 0; g < board.getRectLength(); g += 2) {
 				if (place1 == i && place2 == g) {
 					return true;
 				}
@@ -450,13 +460,13 @@ public class XOrO extends PApplet {
 					if (!blockAndWin(false)) {
 						if (!way1) {
 							if (isPlayerInConer(lastPlaceForPlayer[3][0], lastPlaceForPlayer[3][1]) && ternsPast == 1) {
-								place[1][1].isThereXOrO = true;
-								place[1][1].isThereX = false;
+								place[1][1].setThereXOrO(true);
+								place[1][1].setThereX(false);
 								way1 = true;
 								return;
 							} else {
-								for (int i = 0; i < board.rect[0].length; i += 2) {
-									for (int g = 0; g < board.rect.length; g += 2) {
+								for (int i = 0; i < board.getRect0Length(); i += 2) {
+									for (int g = 0; g < board.getRectLength(); g += 2) {
 										if (randomNumTemp[0] == i && randomNumTemp[1] == g) {
 											breakMode = true;
 											isInSide = true;
@@ -474,9 +484,9 @@ public class XOrO extends PApplet {
 									coputerPlaceCacoletionHard();
 									return;
 								}
-								if (!place[randomNumTemp[0]][randomNumTemp[1]].isThereXOrO) {
-									place[randomNumTemp[0]][randomNumTemp[1]].isThereXOrO = true;
-									place[randomNumTemp[0]][randomNumTemp[1]].isThereX = false;
+								if (!place[randomNumTemp[0]][randomNumTemp[1]].getIsThereXOrO()) {
+									place[randomNumTemp[0]][randomNumTemp[1]].setThereXOrO(true);
+									place[randomNumTemp[0]][randomNumTemp[1]].setThereX(false);
 								} else {
 									coputerPlaceCacoletionHard();
 									return;
@@ -485,10 +495,11 @@ public class XOrO extends PApplet {
 						} else {
 							if (lastPlaceForPlayer[3][0] != 1 && lastPlaceForPlayer[3][1] != 1
 									&& (ternsPast == 1 || ternsPast == 2)) {
-								if ((place[0][0].isThereXOrO && place[0][0].isThereX && place[2][2].isThereXOrO
-										&& place[2][2].isThereX)
-										|| (place[2][0].isThereXOrO && place[2][0].isThereX && place[0][2].isThereXOrO
-												&& place[0][2].isThereX && ternsPast == 2)) {
+								if ((place[0][0].getIsThereXOrO() && place[0][0].isThereX()
+										&& place[2][2].getIsThereXOrO() && place[2][2].isThereX())
+										|| (place[2][0].getIsThereXOrO() && place[2][0].isThereX()
+												&& place[0][2].getIsThereXOrO() && place[0][2].isThereX()
+												&& ternsPast == 2)) {
 									dontPutInConer(randomNumTemp[0], randomNumTemp[1]);
 								}
 							} else if (lastPlaceForPlayer[3][0] == 1
@@ -503,8 +514,8 @@ public class XOrO extends PApplet {
 										placeneed1[i] = 1;
 									}
 								}
-								place[placeneed1[0]][placeneed1[1]].isThereXOrO = true;
-								place[placeneed1[0]][placeneed1[1]].isThereX = false;
+								place[placeneed1[0]][placeneed1[1]].setThereXOrO(true);
+								place[placeneed1[0]][placeneed1[1]].setThereX(false);
 								return;
 							} else {
 								way1 = false;
@@ -538,13 +549,13 @@ public class XOrO extends PApplet {
 					if (!blockAndWin(false)) {
 						if (!way1) {
 							if (ternsPast == 1 && !(lastPlaceForPlayer[3][0] == 1 && lastPlaceForPlayer[3][1] == 1)) {
-								place[1][1].isThereXOrO = true;
-								place[1][1].isThereX = false;
+								place[1][1].setThereXOrO(true);
+								place[1][1].setThereX(false);
 								way1 = true;
 								return;
 							} else {
-								for (int i = 0; i < board.rect[0].length; i += 2) {
-									for (int g = 0; g < board.rect.length; g += 2) {
+								for (int i = 0; i < board.getRect0Length(); i += 2) {
+									for (int g = 0; g < board.getRectLength(); g += 2) {
 										if (randomNumTemp[0] == i && randomNumTemp[1] == g) {
 											breakMode = true;
 											isInSide = true;
@@ -562,9 +573,9 @@ public class XOrO extends PApplet {
 									coputerPlaceCacoletionMultiHard();
 									return;
 								}
-								if (!place[randomNumTemp[0]][randomNumTemp[1]].isThereXOrO) {
-									place[randomNumTemp[0]][randomNumTemp[1]].isThereXOrO = true;
-									place[randomNumTemp[0]][randomNumTemp[1]].isThereX = false;
+								if (!place[randomNumTemp[0]][randomNumTemp[1]].getIsThereXOrO()) {
+									place[randomNumTemp[0]][randomNumTemp[1]].setThereXOrO(true);
+									place[randomNumTemp[0]][randomNumTemp[1]].setThereX(false);
 								} else {
 									coputerPlaceCacoletionMultiHard();
 									return;
@@ -573,10 +584,11 @@ public class XOrO extends PApplet {
 						} else {
 							if ((lastPlaceForPlayer[3][0] != 1 && lastPlaceForPlayer[3][1] != 1
 									&& (ternsPast == 1 || ternsPast == 2))
-									&& (place[0][0].isThereXOrO && place[0][0].isThereX && place[2][2].isThereXOrO
-											&& place[2][2].isThereX)
-									|| (place[2][0].isThereXOrO && place[2][0].isThereX && place[0][2].isThereXOrO
-											&& place[0][2].isThereX && ternsPast == 2)) {
+									&& (place[0][0].getIsThereXOrO() && place[0][0].isThereX()
+											&& place[2][2].getIsThereXOrO() && place[2][2].isThereX())
+									|| (place[2][0].getIsThereXOrO() && place[2][0].isThereX()
+											&& place[0][2].getIsThereXOrO() && place[0][2].isThereX()
+											&& ternsPast == 2)) {
 								dontPutInConer(randomNumTemp[0], randomNumTemp[1]);
 							} else if ((lastPlaceForPlayer[2][0] == 1 || lastPlaceForPlayer[2][1] == 1)
 									&& (lastPlaceForPlayer[3][0] != 1 && lastPlaceForPlayer[3][1] != 1)) {
@@ -587,8 +599,8 @@ public class XOrO extends PApplet {
 									placeneed1[0] = lastPlaceForPlayer[2][0];
 									placeneed1[1] = lastPlaceForPlayer[3][1];
 								}
-								place[placeneed1[0]][placeneed1[1]].isThereXOrO = true;
-								place[placeneed1[0]][placeneed1[1]].isThereX = false;
+								place[placeneed1[0]][placeneed1[1]].setThereXOrO(true);
+								place[placeneed1[0]][placeneed1[1]].setThereX(false);
 								way1 = false;
 								return;
 							} else if ((lastPlaceForPlayer[3][0] == 1 || lastPlaceForPlayer[3][1] == 1)
@@ -600,8 +612,8 @@ public class XOrO extends PApplet {
 									placeneed1[0] = lastPlaceForPlayer[3][0];
 									placeneed1[1] = lastPlaceForPlayer[2][1];
 								}
-								place[placeneed1[0]][placeneed1[1]].isThereXOrO = true;
-								place[placeneed1[0]][placeneed1[1]].isThereX = false;
+								place[placeneed1[0]][placeneed1[1]].setThereXOrO(true);
+								place[placeneed1[0]][placeneed1[1]].setThereX(false);
 								way1 = false;
 								return;
 							} else if (lastPlaceForPlayer[3][0] == 1
@@ -619,8 +631,8 @@ public class XOrO extends PApplet {
 										placeneed1[0] = lastPlaceForPlayer[3][0];
 										placeneed1[1] = lastPlaceForPlayer[2][1];
 									}
-									place[placeneed1[0]][placeneed1[1]].isThereXOrO = true;
-									place[placeneed1[0]][placeneed1[1]].isThereX = false;
+									place[placeneed1[0]][placeneed1[1]].setThereXOrO(true);
+									place[placeneed1[0]][placeneed1[1]].setThereX(false);
 									return;
 								}
 							} else {
@@ -648,9 +660,9 @@ public class XOrO extends PApplet {
 
 	private void dontPutInConer(int randomNumTemp1, int randomNumTemp2) {
 		if (!isPlayerInConer(randomNumTemp1, randomNumTemp2)) {
-			if (!place[randomNumTemp1][randomNumTemp2].isThereXOrO) {
-				place[randomNumTemp1][randomNumTemp2].isThereXOrO = true;
-				place[randomNumTemp1][randomNumTemp2].isThereX = false;
+			if (!place[randomNumTemp1][randomNumTemp2].getIsThereXOrO()) {
+				place[randomNumTemp1][randomNumTemp2].setThereXOrO(true);
+				place[randomNumTemp1][randomNumTemp2].setThereX(false);
 			} else {
 				int[] i = randomNumTempRestart();
 				dontPutInConer(i[0], i[1]);
@@ -684,9 +696,10 @@ public class XOrO extends PApplet {
 		fill(255);
 		stroke(0);
 		strokeWeight(5);
-		for (int i = 0; i < board.rect[0].length; i++) {
-			for (int g = 0; g < board.rect.length; g++) {
-				rect(board.rect[g][i].x, board.rect[g][i].y, board.rect[g][i].width, board.rect[g][i].height);
+		for (int i = 0; i < board.getRect0Length(); i++) {
+			for (int g = 0; g < board.getRectLength(); g++) {
+				rect(board.getRect(g, i).getX(), board.getRect(g, i).getY(), board.getRect(g, i).getWidth(),
+						board.getRect(g, i).getHeight());
 			}
 		}
 	}
@@ -694,10 +707,10 @@ public class XOrO extends PApplet {
 	private void drawXAndO() {
 		for (int i = 0; i < place[0].length; i++) {
 			for (int g = 0; g < place.length; g++) {
-				if (place[g][i].isThereXOrO) {
+				if (place[g][i].getIsThereXOrO()) {
 					int[] xy = new int[2];
 					xy = placeLocCacoletion(g, i);
-					if (place[g][i].isThereX) {
+					if (place[g][i].isThereX()) {
 						drawX(xy[0], xy[1]);
 					} else {
 						drawO(xy[0], xy[1]);
@@ -713,7 +726,7 @@ public class XOrO extends PApplet {
 		fill(0);
 		stroke(0);
 		strokeWeight(10);
-		int size1 = min(board.rect[0][0].height, board.rect[0][0].width) / 2 - 15;
+		int size1 = min(board.getRect(0, 0).getHeight(), board.getRect(0, 0).getWidth()) / 2 - 15;
 		line(-size1, -size1, size1, size1);
 		line(-size1, size1, size1, -size1);
 		popMatrix();
@@ -723,7 +736,7 @@ public class XOrO extends PApplet {
 		fill(255);
 		stroke(0);
 		strokeWeight(10);
-		int size1 = min(board.rect[0][0].height, board.rect[0][0].width) - 30;
+		int size1 = min(board.getRect(0, 0).getHeight(), board.getRect(0, 0).getWidth()) - 30;
 		ellipse(x1, y1, size1, size1);
 	}
 
@@ -743,12 +756,12 @@ public class XOrO extends PApplet {
 	}
 
 	private void boardLocCacoletion() {
-		for (int i = 0; i < board.rect[0].length; i++) {
-			for (int g = 0; g < board.rect.length; g++) {
-				board.rect[g][i].height = height / 3;
-				board.rect[g][i].width = width / 3;
-				board.rect[g][i].x = width / 3 * g;
-				board.rect[g][i].y = height / 3 * i;
+		for (int i = 0; i < board.getRect0Length(); i++) {
+			for (int g = 0; g < board.getRectLength(); g++) {
+				board.getRect(g, i).setHeight(height / 3);
+				board.getRect(g, i).setWidth(width / 3);
+				board.getRect(g, i).setX(width / 3 * g);
+				board.getRect(g, i).setY(height / 3 * i);
 			}
 		}
 	}
@@ -758,7 +771,7 @@ public class XOrO extends PApplet {
 			int numTemp = 0;
 			for (int i = 0; i < place[0].length; i++) {
 				for (int g = 0; g < place.length; g++) {
-					if (place[i][g].isThereXOrO == true)
+					if (place[i][g].getIsThereXOrO() == true)
 						numTemp++;
 				}
 			}
@@ -783,8 +796,8 @@ public class XOrO extends PApplet {
 		for (int i = 0; i < place.length; i++) {
 			int XNum = 0, ONum = 0;
 			for (int g = 0; g < place[0].length; g++) {
-				if (place[g][i].isThereXOrO) {
-					if (place[g][i].isThereX) {
+				if (place[g][i].getIsThereXOrO()) {
+					if (place[g][i].isThereX()) {
 						XNum++;
 					} else {
 						ONum++;
@@ -806,8 +819,8 @@ public class XOrO extends PApplet {
 		for (int i = 0; i < place.length; i++) {
 			int XNum = 0, ONum = 0;
 			for (int g = 0; g < place[0].length; g++) {
-				if (place[i][g].isThereXOrO) {
-					if (place[i][g].isThereX) {
+				if (place[i][g].getIsThereXOrO()) {
+					if (place[i][g].isThereX()) {
 						XNum++;
 					} else {
 						ONum++;
@@ -828,8 +841,8 @@ public class XOrO extends PApplet {
 		int XNum = 0, ONum = 0;
 		int g = 0;
 		for (int i = 0; i < place.length;) {
-			if (place[i][g].isThereXOrO) {
-				if (place[i][g].isThereX) {
+			if (place[i][g].getIsThereXOrO()) {
+				if (place[i][g].isThereX()) {
 					XNum++;
 				} else {
 					ONum++;
@@ -851,8 +864,8 @@ public class XOrO extends PApplet {
 		int XNum = 0, ONum = 0;
 		int g = 2;
 		for (int i = 0; i < place.length;) {
-			if (place[g][i].isThereXOrO) {
-				if (place[g][i].isThereX) {
+			if (place[g][i].getIsThereXOrO()) {
+				if (place[g][i].isThereX()) {
 					XNum++;
 				} else {
 					ONum++;
@@ -871,10 +884,11 @@ public class XOrO extends PApplet {
 	}
 
 	private void drawMainMenu() {
-		mainMenu.OneVSOne.rect.x = width / 2 - mainMenu.OneVSOne.rect.width / 2;
-		mainMenu.OneVSComputer.rect.x = width / 2 - mainMenu.OneVSComputer.rect.width / 2;
-		mainMenu.OneVSOne.rect.y = height / 4 - mainMenu.OneVSOne.rect.height / 2;
-		mainMenu.OneVSComputer.rect.y = height / 4 * 3 - mainMenu.OneVSComputer.rect.height / 2;
+		mainMenu.getOneVSOne().getRect().setX(width / 2 - mainMenu.getOneVSOne().getRect().getWidth() / 2);
+		mainMenu.getOneVSComputer().getRect().setX(width / 2 - mainMenu.getOneVSComputer().getRect().getWidth() / 2);
+		mainMenu.getOneVSOne().getRect().setY(height / 4 * 2 - mainMenu.getOneVSOne().getRect().getHeight() / 2);
+		mainMenu.getOneVSComputer().getRect()
+				.setY(height / 4 * 3 - mainMenu.getOneVSComputer().getRect().getHeight() / 2);
 		drawMainMenuRects();
 		drawMainMenuTexts();
 	}
@@ -883,34 +897,43 @@ public class XOrO extends PApplet {
 		PFont font;
 		font = createFont("Arial", 35);
 		textFont(font);
-		fill(255);
-		text(mainMenu.OneVSComputer.text,
-				mainMenu.OneVSComputer.rect.x + mainMenu.OneVSComputer.rect.width / 2
-						- textWidth(mainMenu.OneVSComputer.text) / 2,
-				mainMenu.OneVSComputer.rect.y + mainMenu.OneVSComputer.rect.height / 2);
-		text(mainMenu.OneVSOne.text,
-				mainMenu.OneVSOne.rect.x + mainMenu.OneVSOne.rect.width / 2 - textWidth(mainMenu.OneVSOne.text) / 2,
-				mainMenu.OneVSOne.rect.y + mainMenu.OneVSOne.rect.height / 2);
+		fill(0);
+		text(mainMenu.getMainMenu(), width / 2 - textWidth(mainMenu.getMainMenu()) / 2, height / 4);
+		fill(backgroundColor);
+		text(mainMenu.getOneVSComputer().getText(),
+				mainMenu.getOneVSComputer().getRect().getX() + mainMenu.getOneVSComputer().getRect().getWidth() / 2
+						- textWidth(mainMenu.getOneVSComputer().getText()) / 2,
+				mainMenu.getOneVSComputer().getRect().getY() + mainMenu.getOneVSComputer().getRect().getHeight() / 2);
+		text(mainMenu.getOneVSOne().getText(),
+				mainMenu.getOneVSOne().getRect().getX() + mainMenu.getOneVSOne().getRect().getWidth() / 2
+						- textWidth(mainMenu.getOneVSOne().getText()) / 2,
+				mainMenu.getOneVSOne().getRect().getY() + mainMenu.getOneVSOne().getRect().getHeight() / 2);
 	}
 
 	private void drawMainMenuRects() {
 		fill(0);
 		noStroke();
-		rect(mainMenu.OneVSComputer.rect.x, mainMenu.OneVSComputer.rect.y, mainMenu.OneVSComputer.rect.width,
-				mainMenu.OneVSComputer.rect.height);
-		rect(mainMenu.OneVSOne.rect.x, mainMenu.OneVSOne.rect.y, mainMenu.OneVSOne.rect.width,
-				mainMenu.OneVSOne.rect.height);
+		rect(mainMenu.getOneVSComputer().getRect().getX(), mainMenu.getOneVSComputer().getRect().getY(),
+				mainMenu.getOneVSComputer().getRect().getWidth(), mainMenu.getOneVSComputer().getRect().getHeight());
+		rect(mainMenu.getOneVSOne().getRect().getX(), mainMenu.getOneVSOne().getRect().getY(),
+				mainMenu.getOneVSOne().getRect().getWidth(), mainMenu.getOneVSOne().getRect().getHeight());
 	}
 
 	private void drawVsComputerMenu() {
-		vsComputerMenu.easyMode.rect.x = width / 2 - vsComputerMenu.easyMode.rect.width / 2;
-		vsComputerMenu.normalMode.rect.x = width / 2 - vsComputerMenu.normalMode.rect.width / 2;
-		vsComputerMenu.hardMode.rect.x = width / 2 - vsComputerMenu.hardMode.rect.width / 2;
-		vsComputerMenu.multiHardMode.rect.x = width / 2 - vsComputerMenu.multiHardMode.rect.width / 2;
-		vsComputerMenu.easyMode.rect.y = height / 8 - vsComputerMenu.easyMode.rect.height / 2;
-		vsComputerMenu.normalMode.rect.y = height / 8 * 3 - vsComputerMenu.normalMode.rect.height / 2;
-		vsComputerMenu.hardMode.rect.y = height / 8 * 5 - vsComputerMenu.hardMode.rect.height / 2;
-		vsComputerMenu.multiHardMode.rect.y = height / 8 * 7 - vsComputerMenu.multiHardMode.rect.height / 2;
+		vsComputerMenu.getEasyMode().getRect().setX(width / 2 - vsComputerMenu.getEasyMode().getRect().getWidth() / 2);
+		vsComputerMenu.getNormalMode().getRect()
+				.setX(width / 2 - vsComputerMenu.getNormalMode().getRect().getWidth() / 2);
+		vsComputerMenu.getHardMode().getRect().setX(width / 2 - vsComputerMenu.getHardMode().getRect().getWidth() / 2);
+		vsComputerMenu.getMultiHardMode().getRect()
+				.setX(width / 2 - vsComputerMenu.getMultiHardMode().getRect().getWidth() / 2);
+		vsComputerMenu.getEasyMode().getRect()
+				.setY(height / 8 - vsComputerMenu.getEasyMode().getRect().getHeight() / 2);
+		vsComputerMenu.getNormalMode().getRect()
+				.setY(height / 8 * 3 - vsComputerMenu.getNormalMode().getRect().getHeight() / 2);
+		vsComputerMenu.getHardMode().getRect()
+				.setY(height / 8 * 5 - vsComputerMenu.getHardMode().getRect().getHeight() / 2);
+		vsComputerMenu.getMultiHardMode().getRect()
+				.setY(height / 8 * 7 - vsComputerMenu.getMultiHardMode().getRect().getHeight() / 2);
 		drawVsComputerMenuRects();
 		drawVsComputerMenuTexts();
 	}
@@ -919,68 +942,60 @@ public class XOrO extends PApplet {
 		PFont font;
 		font = createFont("Arial", 35);
 		textFont(font);
-		fill(255);
-		text(vsComputerMenu.easyMode.text,
-				vsComputerMenu.easyMode.rect.x + vsComputerMenu.easyMode.rect.width / 2
-						- textWidth(vsComputerMenu.easyMode.text) / 2,
-				vsComputerMenu.easyMode.rect.y + vsComputerMenu.easyMode.rect.height / 2);
-		text(vsComputerMenu.normalMode.text,
-				vsComputerMenu.normalMode.rect.x + vsComputerMenu.normalMode.rect.width / 2
-						- textWidth(vsComputerMenu.normalMode.text) / 2,
-				vsComputerMenu.normalMode.rect.y + vsComputerMenu.normalMode.rect.height / 2);
-		text(vsComputerMenu.hardMode.text,
-				vsComputerMenu.hardMode.rect.x + vsComputerMenu.hardMode.rect.width / 2
-						- textWidth(vsComputerMenu.hardMode.text) / 2,
-				vsComputerMenu.hardMode.rect.y + vsComputerMenu.hardMode.rect.height / 2);
-		text(vsComputerMenu.multiHardMode.text,
-				vsComputerMenu.multiHardMode.rect.x + vsComputerMenu.multiHardMode.rect.width / 2
-						- textWidth(vsComputerMenu.multiHardMode.text) / 2,
-				vsComputerMenu.multiHardMode.rect.y + vsComputerMenu.multiHardMode.rect.height / 2);
+		fill(backgroundColor);
+		text(vsComputerMenu.getEasyMode().getText(),
+				vsComputerMenu.getEasyMode().getRect().getX() + vsComputerMenu.getEasyMode().getRect().getWidth() / 2
+						- textWidth(vsComputerMenu.getEasyMode().getText()) / 2,
+				vsComputerMenu.getEasyMode().getRect().getY() + vsComputerMenu.getEasyMode().getRect().getHeight() / 2);
+		text(vsComputerMenu.getNormalMode().getText(),
+				vsComputerMenu.getNormalMode().getRect().getX()
+						+ vsComputerMenu.getNormalMode().getRect().getWidth() / 2
+						- textWidth(vsComputerMenu.getNormalMode().getText()) / 2,
+				vsComputerMenu.getNormalMode().getRect().getY()
+						+ vsComputerMenu.getNormalMode().getRect().getHeight() / 2);
+		text(vsComputerMenu.getHardMode().getText(),
+				vsComputerMenu.getHardMode().getRect().getX() + vsComputerMenu.getHardMode().getRect().getWidth() / 2
+						- textWidth(vsComputerMenu.getHardMode().getText()) / 2,
+				vsComputerMenu.getHardMode().getRect().getY() + vsComputerMenu.getHardMode().getRect().getHeight() / 2);
+		text(vsComputerMenu.getMultiHardMode().getText(),
+				vsComputerMenu.getMultiHardMode().getRect().getX()
+						+ vsComputerMenu.getMultiHardMode().getRect().getWidth() / 2
+						- textWidth(vsComputerMenu.getMultiHardMode().getText()) / 2,
+				vsComputerMenu.getMultiHardMode().getRect().getY()
+						+ vsComputerMenu.getMultiHardMode().getRect().getHeight() / 2);
 	}
 
 	private void drawVsComputerMenuRects() {
 		fill(0);
 		noStroke();
-		rect(vsComputerMenu.easyMode.rect.x, vsComputerMenu.easyMode.rect.y, vsComputerMenu.easyMode.rect.width,
-				vsComputerMenu.easyMode.rect.height);
-		rect(vsComputerMenu.normalMode.rect.x, vsComputerMenu.normalMode.rect.y, vsComputerMenu.normalMode.rect.width,
-				vsComputerMenu.normalMode.rect.height);
-		rect(vsComputerMenu.hardMode.rect.x, vsComputerMenu.hardMode.rect.y, vsComputerMenu.hardMode.rect.width,
-				vsComputerMenu.hardMode.rect.height);
-		rect(vsComputerMenu.multiHardMode.rect.x, vsComputerMenu.multiHardMode.rect.y,
-				vsComputerMenu.multiHardMode.rect.width, vsComputerMenu.multiHardMode.rect.height);
+		rect(vsComputerMenu.getEasyMode().getRect().getX(), vsComputerMenu.getEasyMode().getRect().getY(),
+				vsComputerMenu.getEasyMode().getRect().getWidth(), vsComputerMenu.getEasyMode().getRect().getHeight());
+		rect(vsComputerMenu.getNormalMode().getRect().getX(), vsComputerMenu.getNormalMode().getRect().getY(),
+				vsComputerMenu.getNormalMode().getRect().getWidth(),
+				vsComputerMenu.getNormalMode().getRect().getHeight());
+		rect(vsComputerMenu.getHardMode().getRect().getX(), vsComputerMenu.getHardMode().getRect().getY(),
+				vsComputerMenu.getHardMode().getRect().getWidth(), vsComputerMenu.getHardMode().getRect().getHeight());
+		rect(vsComputerMenu.getMultiHardMode().getRect().getX(), vsComputerMenu.getMultiHardMode().getRect().getY(),
+				vsComputerMenu.getMultiHardMode().getRect().getWidth(),
+				vsComputerMenu.getMultiHardMode().getRect().getHeight());
 	}
 
 	private void setupVsComputerMenu() {
-		vsComputerMenu.easyMode.rect.height = 100;
-		vsComputerMenu.normalMode.rect.height = 100;
-		vsComputerMenu.hardMode.rect.height = 100;
-		vsComputerMenu.multiHardMode.rect.height = 100;
-		vsComputerMenu.easyMode.rect.width = 300;
-		vsComputerMenu.normalMode.rect.width = 300;
-		vsComputerMenu.hardMode.rect.width = 300;
-		vsComputerMenu.multiHardMode.rect.width = 300;
-		vsComputerMenu.easyMode.rect.x = width / 2 - vsComputerMenu.easyMode.rect.width / 2;
-		vsComputerMenu.normalMode.rect.x = width / 2 - vsComputerMenu.normalMode.rect.width / 2;
-		vsComputerMenu.hardMode.rect.x = width / 2 - vsComputerMenu.hardMode.rect.width / 2;
-		vsComputerMenu.multiHardMode.rect.x = width / 2 - vsComputerMenu.multiHardMode.rect.width / 2;
-		vsComputerMenu.easyMode.rect.y = height / 8 - vsComputerMenu.easyMode.rect.height / 2;
-		vsComputerMenu.normalMode.rect.y = height / 8 * 2 - vsComputerMenu.normalMode.rect.height / 2;
-		vsComputerMenu.hardMode.rect.y = height / 8 * 4 - vsComputerMenu.hardMode.rect.height / 2;
-		vsComputerMenu.multiHardMode.rect.y = height / 8 * 6 - vsComputerMenu.multiHardMode.rect.height / 2;
+		vsComputerMenu.getEasyMode().getRect().setHeight(100);
+		vsComputerMenu.getNormalMode().getRect().setHeight(100);
+		vsComputerMenu.getHardMode().getRect().setHeight(100);
+		vsComputerMenu.getMultiHardMode().getRect().setHeight(100);
+		vsComputerMenu.getEasyMode().getRect().setWidth(300);
+		vsComputerMenu.getNormalMode().getRect().setWidth(300);
+		vsComputerMenu.getHardMode().getRect().setWidth(300);
+		vsComputerMenu.getMultiHardMode().getRect().setWidth(300);
 	}
 
 	private void setupMainMenu() {
 		menuModeMain = true;
-		mainMenu.OneVSOne.rect.height = 100;
-		mainMenu.OneVSComputer.rect.height = 100;
-		mainMenu.OneVSOne.rect.width = 300;
-		mainMenu.OneVSComputer.rect.width = 300;
-		mainMenu.OneVSOne.rect.x = width / 2 - mainMenu.OneVSOne.rect.width / 2;
-		mainMenu.OneVSComputer.rect.x = width / 2 - mainMenu.OneVSComputer.rect.width / 2;
-		mainMenu.OneVSOne.rect.x = width / 2 - mainMenu.OneVSOne.rect.width / 2;
-		mainMenu.OneVSComputer.rect.x = width / 2 - mainMenu.OneVSComputer.rect.width / 2;
-		mainMenu.OneVSOne.rect.y = height / 4 - mainMenu.OneVSOne.rect.height / 2;
-		mainMenu.OneVSComputer.rect.y = height / 4 * 3 - mainMenu.OneVSComputer.rect.height / 2;
+		mainMenu.getOneVSOne().getRect().setHeight(100);
+		mainMenu.getOneVSComputer().getRect().setHeight(100);
+		mainMenu.getOneVSOne().getRect().setWidth(300);
+		mainMenu.getOneVSComputer().getRect().setWidth(300);
 	}
 }

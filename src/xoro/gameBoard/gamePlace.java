@@ -1,11 +1,27 @@
 package xoro.gameBoard;
 
 public class gamePlace {
-	public boolean isThereXOrO = false;
-	public boolean isThereX = true;
+	private boolean isThereXOrO = false;
+	private boolean isThereX = true;
 
 	public gamePlace() {
-		isThereXOrO = false;
-		isThereX = true;
+		setThereXOrO(false);
+		setThereX(true);
+	}
+
+	public boolean isThereX() {
+		return isThereX;
+	}
+
+	public void setThereX(boolean isThereX) {
+		this.isThereX = isThereX;
+	}
+
+	public boolean getIsThereXOrO() {
+		return isThereXOrO;
+	}
+
+	public void setThereXOrO(boolean isThereXOrO) {
+		this.isThereXOrO = isThereXOrO;
 	}
 }
