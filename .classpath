@@ -16,11 +16,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="X or O/lib/base/pdf"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/base/pdf/pdf.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="X or O/lib/base/pdf"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="lib/base/serial/jssc.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="X or O/lib/base/serial"/>
@@ -66,7 +61,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="X or O/lib/base/svg"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/base/core/core.jar">
+	<classpathentry kind="lib" path="lib/base/core/core.jar" sourcepath="lib/base/core/core.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="X or O/lib/base/core"/>
 		</attributes>

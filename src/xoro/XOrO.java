@@ -1,8 +1,14 @@
 package xoro;
 
-import processing.core.*;
-import xoro.gameBoard.*;
-import xoro.menus.*;
+import processing.core.PApplet;
+import xoro.gameBoard.Board;
+import xoro.gameBoard.gamePlace;
+import xoro.global.Actions;
+import xoro.menus.MainMenu;
+import xoro.menus.NoWinerMenu;
+import xoro.menus.OWinMenu;
+import xoro.menus.XWinMenu;
+import xoro.menus.vsComputerMenu;
 
 public class XOrO extends PApplet {
 
@@ -10,41 +16,147 @@ public class XOrO extends PApplet {
 		PApplet.main(new String[] { xoro.XOrO.class.getName() });
 	}
 
-	mainMenu mainMenu = new mainMenu();
-	vsComputerMenu vsComputerMenu = new vsComputerMenu();
-	gamePlace[][] place = new gamePlace[3][3];
-	Board board = new Board();
-	boolean ternX = true, isXWiner = true, isThereWiner = false, isOverNoWiner = false, isVSComputer = true,
+	private MainMenu mainMenu;
+	private OWinMenu OWinMenu;
+	private XWinMenu XWinMenu;
+	private NoWinerMenu noWinerMenu;
+	private vsComputerMenu vsComputerMenu;
+	private gamePlace[][] place = new gamePlace[3][3];
+	private Board board = new Board();
+	private boolean ternX = true, isXWiner = true, isThereWiner = false, isOverNoWiner = false, isVSComputerMenu = true,
 			way1 = false, menuModeMain = false, menuModeVsComputer = false, playMode = true;
-	int computerMode = 4, ternsPast = 0, backgroundColor;
-	int[][] lastPlaceForPlayer = new int[4][2];
+	private int computerMode = 4, ternsPast = 0, backgroundColor, notBackgroundColor, crazyMode = 0;
+	private int[][] lastPlaceForPlayer = new int[4][2];
+
+	private Actions oneVsOneAction = new Actions() {
+		@Override
+		public void function() {
+			setVSComputerMenu(false);
+			setMenuModeMain(false);
+			setPlayMode(true);
+			setMenuModeVsComputer(false);
+		}
+	};
+	private Actions oneVsComputerAction = new Actions() {
+		@Override
+		public void function() {
+			setVSComputerMenu(true);
+			setMenuModeMain(false);
+			setPlayMode(false);
+			setMenuModeVsComputer(true);
+		}
+	};
+	private Actions crazyModeAction = new Actions() {
+		@Override
+		public void function() {
+			setCrazyMode(getCrazyMode() + 1);
+			switch (getCrazyMode()) {
+			case 3:
+				setCrazyMode(0);
+				mainMenu.getCrazyMode().setText("Crazy Mode : OFF");
+				break;
+			case 1:
+				mainMenu.getCrazyMode().setText("Crazy Mode : Level 1");
+				break;
+			case 2:
+				mainMenu.getCrazyMode().setText("Crazy Mode : Level 2");
+				break;
+			}
+		}
+	};
+	private Actions easyModeAction = new Actions() {
+
+		@Override
+		public void function() {
+			setVSComputerMenu(true);
+			setMenuModeMain(false);
+			setPlayMode(true);
+			setMenuModeVsComputer(false);
+			computerMode = 1;
+		}
+	};
+	private Actions NormalModeAction = new Actions() {
+
+		@Override
+		public void function() {
+			setVSComputerMenu(true);
+			setMenuModeMain(false);
+			setPlayMode(true);
+			setMenuModeVsComputer(false);
+			computerMode = 2;
+		}
+	};
+
+	private Actions hardModeAction = new Actions() {
+
+		@Override
+		public void function() {
+			setVSComputerMenu(true);
+			setMenuModeMain(false);
+			setPlayMode(true);
+			setMenuModeVsComputer(false);
+			computerMode = 3;
+		}
+	};
+
+	private Actions multiHardMode = new Actions() {
+
+		@Override
+		public void function() {
+			setVSComputerMenu(true);
+			setMenuModeMain(false);
+			setPlayMode(true);
+			setMenuModeVsComputer(false);
+			computerMode = 4;
+		}
+	};
 
 	public void settings() {
 		size(600, 600);
 	}
 
 	public void setup() {
+		mainMenu = new MainMenu(this);
+		vsComputerMenu = new vsComputerMenu(this);
+		OWinMenu = new OWinMenu(this);
+		XWinMenu = new XWinMenu(this);
+		noWinerMenu = new NoWinerMenu(this);
+		setCrazyMode(0);
+		ternX = true;
+		isXWiner = true;
+		isThereWiner = false;
+		isOverNoWiner = false;
+		setVSComputerMenu(true);
+		way1 = false;
+		menuModeMain = false;
+		setMenuModeVsComputer(false);
+		setPlayMode(true);
 		surface.setResizable(true);
 		for (int i = 0; i < place.length; i++) {
 			for (int g = 0; g < place[0].length; g++) {
 				place[i][g] = new gamePlace();
 			}
 		}
-		setupMainMenu();
-		setupVsComputerMenu();
-		backgroundColor = color((int) random(0f, 255.9999999999999999999999f),
-				(int) random(0f, 255.9999999999999999999999f), (int) random(0f, 255.9999999999999999999999f));
+		mainMenu.setup();
+		vsComputerMenu.setup();
+		XWinMenu.setup();
+		noWinerMenu.setup();
+		OWinMenu.setup();
+		resetBackgroundColor();
 	}
 
 	public void draw() {
-		background(255);
-		if (menuModeMain) {
-			background(backgroundColor);
-			drawMainMenu();
-		} else if (menuModeVsComputer) {
-			background(backgroundColor);
-			drawVsComputerMenu();
-		} else if (playMode) {
+		if (getCrazyMode() == 2) {
+			resetBackgroundColor();
+		}
+		background(getBackgroundColor());
+		if (isMenuModeMain()) {
+			background(getBackgroundColor());
+			mainMenu.draw();
+		} else if (isMenuModeVsComputer()) {
+			background(getBackgroundColor());
+			vsComputerMenu.draw();
+		} else if (isPlayMode()) {
 			checkXWin();
 			checkYWin();
 			checkXY1Win();
@@ -56,109 +168,51 @@ public class XOrO extends PApplet {
 				drawXAndO();
 			} else if (isThereWiner) {
 				if (isXWiner) {
-					pushMatrix();
-					translate(width / 2, height / 2);
-					fill(0);
-					stroke(0);
-					strokeWeight(10);
-					int size1 = min(height, width) / 2 - 50;
-					line(-size1, -size1, size1, size1);
-					line(-size1, size1, size1, -size1);
-					popMatrix();
+					XWinMenu.draw();
 				} else {
-					fill(255);
-					stroke(0);
-					strokeWeight(10);
-					int size1 = min(height, width) - 100;
-					ellipse(width / 2, height / 2, size1, size1);
+					OWinMenu.draw();
 				}
 			} else if (isOverNoWiner) {
-				fill(255);
-				stroke(0);
-				strokeWeight(10);
-				pushMatrix();
-				translate(width / 4, height / 2);
-				int size1 = min(height, width) / 4 - 15;
-				line(-size1, -size1, size1, size1);
-				line(-size1, size1, size1, -size1);
-				popMatrix();
-				size1 = min(height, width) / 2 - 30;
-				ellipse((width / 4) * 3, height / 2, size1, size1);
+				noWinerMenu.draw();
 			}
 		}
 	}
 
 	public void mousePressed() {
-		if (menuModeMain) {
-			if (pointInShape(mouseX, mouseY, mainMenu.getOneVSComputer().getRect().getX(),
-					mainMenu.getOneVSComputer().getRect().getY(), mainMenu.getOneVSComputer().getRect().getHeight(),
-					mainMenu.getOneVSComputer().getRect().getWidth())) {
-				isVSComputer = true;
-				menuModeMain = false;
-				playMode = false;
-				menuModeVsComputer = true;
-			} else if (pointInShape(mouseX, mouseY, mainMenu.getOneVSOne().getRect().getX(),
-					mainMenu.getOneVSOne().getRect().getY(), mainMenu.getOneVSOne().getRect().getHeight(),
-					mainMenu.getOneVSOne().getRect().getWidth())) {
-				isVSComputer = false;
-				menuModeMain = false;
-				playMode = true;
-				menuModeVsComputer = false;
-			}
-		} else if (menuModeVsComputer) {
-			if (pointInShape(mouseX, mouseY, vsComputerMenu.getEasyMode().getRect().getX(),
-					vsComputerMenu.getEasyMode().getRect().getY(), vsComputerMenu.getEasyMode().getRect().getHeight(),
-					vsComputerMenu.getEasyMode().getRect().getWidth())) {
-				isVSComputer = true;
-				menuModeMain = false;
-				playMode = true;
-				menuModeVsComputer = false;
-				computerMode = 1;
-			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.getNormalMode().getRect().getX(),
-					vsComputerMenu.getNormalMode().getRect().getY(),
-					vsComputerMenu.getNormalMode().getRect().getHeight(),
-					vsComputerMenu.getNormalMode().getRect().getWidth())) {
-				isVSComputer = true;
-				menuModeMain = false;
-				playMode = true;
-				menuModeVsComputer = false;
-				computerMode = 2;
-			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.getHardMode().getRect().getX(),
-					vsComputerMenu.getHardMode().getRect().getY(), vsComputerMenu.getHardMode().getRect().getHeight(),
-					vsComputerMenu.getHardMode().getRect().getWidth())) {
-				isVSComputer = true;
-				menuModeMain = false;
-				playMode = true;
-				menuModeVsComputer = false;
-				computerMode = 3;
-			} else if (pointInShape(mouseX, mouseY, vsComputerMenu.getMultiHardMode().getRect().getX(),
-					vsComputerMenu.getMultiHardMode().getRect().getY(),
-					vsComputerMenu.getMultiHardMode().getRect().getHeight(),
-					vsComputerMenu.getMultiHardMode().getRect().getWidth())) {
-				isVSComputer = true;
-				menuModeMain = false;
-				playMode = true;
-				menuModeVsComputer = false;
-				computerMode = 4;
-			}
-		} else if (playMode) {
+		if (getCrazyMode() == 1) {
+			resetBackgroundColor();
+		}
+		if (isMenuModeMain()) {
+			if (mainMenu.getCrazyMode().click(crazyModeAction))
+				return;
+			if (mainMenu.getOneVSComputer().click(oneVsComputerAction))
+				return;
+			mainMenu.getOneVSOne().click(oneVsOneAction);
+		} else if (isMenuModeVsComputer()) {
+			if (vsComputerMenu.getEasyMode().click(easyModeAction))
+				return;
+			if (vsComputerMenu.getNormalMode().click(NormalModeAction))
+				return;
+			if (vsComputerMenu.getHardMode().click(hardModeAction))
+				return;
+			vsComputerMenu.getMultiHardMode().click(multiHardMode);
+		} else if (isPlayMode()) {
 			if (!isThereWiner && !isOverNoWiner) {
 				for (int i = 0; i < board.getRect0Length(); i++) {
 					for (int g = 0; g < board.getRectLength(); g++) {
-						if (pointInShape(mouseX, mouseY, board.getRect(g, i).getX(), board.getRect(g, i).getY(),
-								board.getRect(g, i).getHeight(), board.getRect(g, i).getWidth())
-								&& place[g][i].getIsThereXOrO() == false) {
+						if (board.getRect(g, i).pointInShape(mouseX, mouseY) && place[g][i].getIsThereXOrO() == false) {
 							place[g][i].setThereXOrO(true);
-							lastPlaceForPlayer[0][0] = lastPlaceForPlayer[1][0];
-							lastPlaceForPlayer[0][1] = lastPlaceForPlayer[1][1];
-							lastPlaceForPlayer[1][0] = lastPlaceForPlayer[2][0];
-							lastPlaceForPlayer[1][1] = lastPlaceForPlayer[2][1];
-							lastPlaceForPlayer[2][0] = lastPlaceForPlayer[3][0];
-							lastPlaceForPlayer[2][1] = lastPlaceForPlayer[3][1];
-							lastPlaceForPlayer[3][0] = g;
-							lastPlaceForPlayer[3][1] = i;
+							for (int h = 0; h < lastPlaceForPlayer.length; h++) {
+								if (h != 3) {
+									lastPlaceForPlayer[h][0] = lastPlaceForPlayer[h + 1][0];
+									lastPlaceForPlayer[h][1] = lastPlaceForPlayer[h + 1][1];
+								} else {
+									lastPlaceForPlayer[3][0] = g;
+									lastPlaceForPlayer[3][1] = i;
+								}
+							}
 							ternsPast++;
-							if (!isVSComputer) {
+							if (!isVSComputerMenu()) {
 								place[g][i].setThereX(ternX);
 								ternX = !ternX;
 							} else {
@@ -182,7 +236,40 @@ public class XOrO extends PApplet {
 					}
 				}
 			} else {
-				restartGame();
+				if (isOverNoWiner) {
+					if (noWinerMenu.getBack().click(new Actions() {
+						@Override
+						public void function() {
+							setup();
+						}
+					})) {
+						return;
+					} else {
+						restartGame();
+					}
+				} else if (isXWiner) {
+					if (XWinMenu.getBack().click(new Actions() {
+						@Override
+						public void function() {
+							setup();
+						}
+					})) {
+						return;
+					} else {
+						restartGame();
+					}
+				} else {
+					if (OWinMenu.getBack().click(new Actions() {
+						@Override
+						public void function() {
+							setup();
+						}
+					})) {
+						return;
+					} else {
+						restartGame();
+					}
+				}
 			}
 		}
 	}
@@ -554,24 +641,26 @@ public class XOrO extends PApplet {
 								way1 = true;
 								return;
 							} else {
-								for (int i = 0; i < board.getRect0Length(); i += 2) {
-									for (int g = 0; g < board.getRectLength(); g += 2) {
-										if (randomNumTemp[0] == i && randomNumTemp[1] == g) {
-											breakMode = true;
-											isInSide = true;
-											break;
+								if (isPlaceToPutInCornerAndMid()) {
+									for (int i = 0; i < board.getRect0Length(); i += 2) {
+										for (int g = 0; g < board.getRectLength(); g += 2) {
+											if (randomNumTemp[0] == i && randomNumTemp[1] == g) {
+												breakMode = true;
+												isInSide = true;
+												break;
+											}
 										}
+										if (breakMode)
+											break;
 									}
-									if (breakMode)
-										break;
-								}
-								breakMode = false;
-								if (randomNumTemp[0] == 1 && randomNumTemp[1] == 1) {
-									isInSide = true;
-								}
-								if (!isInSide) {
-									coputerPlaceCacoletionMultiHard();
-									return;
+									breakMode = false;
+									if (randomNumTemp[0] == 1 && randomNumTemp[1] == 1) {
+										isInSide = true;
+									}
+									if (!isInSide) {
+										coputerPlaceCacoletionMultiHard();
+										return;
+									}
 								}
 								if (!place[randomNumTemp[0]][randomNumTemp[1]].getIsThereXOrO()) {
 									place[randomNumTemp[0]][randomNumTemp[1]].setThereXOrO(true);
@@ -653,6 +742,25 @@ public class XOrO extends PApplet {
 
 	}
 
+	private boolean isPlaceToPutInCornerAndMid() {
+		int tempNum = 0;
+		for (int i = 0; i < board.getRect0Length(); i += 2) {
+			for (int g = 0; g < board.getRectLength(); g += 2) {
+				if (place[i][g].getIsThereXOrO()) {
+					tempNum++;
+				}
+			}
+		}
+		if (place[1][1].getIsThereXOrO()) {
+			tempNum++;
+		}
+		if (tempNum >= 5) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	private int[] randomNumTempRestart() {
 		int[] i = { (int) random(0, 2.999999f), (int) random(0, 2.999999f) };
 		return i;
@@ -675,26 +783,9 @@ public class XOrO extends PApplet {
 		}
 	}
 
-	// private void PutInConerAndMid(int randomNumTemp1,int randomNumTemp2) {
-	// if (isPlayerInConer(randomNumTemp1, randomNumTemp2)) {
-	// if (!place[randomNumTemp1][randomNumTemp2].isThereXOrO) {
-	// place[randomNumTemp1][randomNumTemp2].isThereXOrO = true;
-	// place[randomNumTemp1][randomNumTemp2].isThereX = false;
-	// } else {
-	// int[] i=randomNumTempRestart();
-	// dontPutInConer(i[0],i[1]);
-	// return;
-	// }
-	// }else{
-	// int[] i=randomNumTempRestart();
-	// dontPutInConer(i[0],i[1]);
-	// return;
-	// }
-	// }
-
 	private void drawBoard() {
-		fill(255);
-		stroke(0);
+		fill(getBackgroundColor());
+		stroke(getNotBackgroundColor());
 		strokeWeight(5);
 		for (int i = 0; i < board.getRect0Length(); i++) {
 			for (int g = 0; g < board.getRectLength(); g++) {
@@ -723,8 +814,8 @@ public class XOrO extends PApplet {
 	private void drawX(int x1, int y1) {
 		pushMatrix();
 		translate(x1, y1);
-		fill(0);
-		stroke(0);
+		fill(getNotBackgroundColor());
+		stroke(getNotBackgroundColor());
 		strokeWeight(10);
 		int size1 = min(board.getRect(0, 0).getHeight(), board.getRect(0, 0).getWidth()) / 2 - 15;
 		line(-size1, -size1, size1, size1);
@@ -733,8 +824,8 @@ public class XOrO extends PApplet {
 	}
 
 	private void drawO(int x1, int y1) {
-		fill(255);
-		stroke(0);
+		fill(getBackgroundColor());
+		stroke(getNotBackgroundColor());
 		strokeWeight(10);
 		int size1 = min(board.getRect(0, 0).getHeight(), board.getRect(0, 0).getWidth()) - 30;
 		ellipse(x1, y1, size1, size1);
@@ -745,14 +836,6 @@ public class XOrO extends PApplet {
 		i[0] = width / 6 + width / 3 * loc1;
 		i[1] = height / 6 + height / 3 * loc2;
 		return i;
-	}
-
-	private boolean pointInShape(int x1, int y1, int x2, int y2, int height, int width) {
-		if (x1 >= x2 && x1 <= (x2 + width) && y1 >= y2 && y1 <= (y2 + height)) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	private void boardLocCacoletion() {
@@ -883,119 +966,66 @@ public class XOrO extends PApplet {
 		}
 	}
 
-	private void drawMainMenu() {
-		mainMenu.getOneVSOne().getRect().setX(width / 2 - mainMenu.getOneVSOne().getRect().getWidth() / 2);
-		mainMenu.getOneVSComputer().getRect().setX(width / 2 - mainMenu.getOneVSComputer().getRect().getWidth() / 2);
-		mainMenu.getOneVSOne().getRect().setY(height / 4 * 2 - mainMenu.getOneVSOne().getRect().getHeight() / 2);
-		mainMenu.getOneVSComputer().getRect()
-				.setY(height / 4 * 3 - mainMenu.getOneVSComputer().getRect().getHeight() / 2);
-		drawMainMenuRects();
-		drawMainMenuTexts();
+	private void resetBackgroundColor() {
+		int R = (int) random(0f, 255.9999999999999999999999f), B = (int) random(0f, 255.9999999999999999999999f),
+				G = (int) random(0f, 255.9999999999999999999999f);
+		setBackgroundColor(color(R, G, B));
+		setNotBackgroundColor(color(255 - R, 255 - G, 255 - B));
 	}
 
-	private void drawMainMenuTexts() {
-		PFont font;
-		font = createFont("Arial", 35);
-		textFont(font);
-		fill(0);
-		text(mainMenu.getMainMenu(), width / 2 - textWidth(mainMenu.getMainMenu()) / 2, height / 4);
-		fill(backgroundColor);
-		text(mainMenu.getOneVSComputer().getText(),
-				mainMenu.getOneVSComputer().getRect().getX() + mainMenu.getOneVSComputer().getRect().getWidth() / 2
-						- textWidth(mainMenu.getOneVSComputer().getText()) / 2,
-				mainMenu.getOneVSComputer().getRect().getY() + mainMenu.getOneVSComputer().getRect().getHeight() / 2);
-		text(mainMenu.getOneVSOne().getText(),
-				mainMenu.getOneVSOne().getRect().getX() + mainMenu.getOneVSOne().getRect().getWidth() / 2
-						- textWidth(mainMenu.getOneVSOne().getText()) / 2,
-				mainMenu.getOneVSOne().getRect().getY() + mainMenu.getOneVSOne().getRect().getHeight() / 2);
+	public int getBackgroundColor() {
+		return backgroundColor;
 	}
 
-	private void drawMainMenuRects() {
-		fill(0);
-		noStroke();
-		rect(mainMenu.getOneVSComputer().getRect().getX(), mainMenu.getOneVSComputer().getRect().getY(),
-				mainMenu.getOneVSComputer().getRect().getWidth(), mainMenu.getOneVSComputer().getRect().getHeight());
-		rect(mainMenu.getOneVSOne().getRect().getX(), mainMenu.getOneVSOne().getRect().getY(),
-				mainMenu.getOneVSOne().getRect().getWidth(), mainMenu.getOneVSOne().getRect().getHeight());
+	private void setBackgroundColor(int backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 
-	private void drawVsComputerMenu() {
-		vsComputerMenu.getEasyMode().getRect().setX(width / 2 - vsComputerMenu.getEasyMode().getRect().getWidth() / 2);
-		vsComputerMenu.getNormalMode().getRect()
-				.setX(width / 2 - vsComputerMenu.getNormalMode().getRect().getWidth() / 2);
-		vsComputerMenu.getHardMode().getRect().setX(width / 2 - vsComputerMenu.getHardMode().getRect().getWidth() / 2);
-		vsComputerMenu.getMultiHardMode().getRect()
-				.setX(width / 2 - vsComputerMenu.getMultiHardMode().getRect().getWidth() / 2);
-		vsComputerMenu.getEasyMode().getRect()
-				.setY(height / 8 - vsComputerMenu.getEasyMode().getRect().getHeight() / 2);
-		vsComputerMenu.getNormalMode().getRect()
-				.setY(height / 8 * 3 - vsComputerMenu.getNormalMode().getRect().getHeight() / 2);
-		vsComputerMenu.getHardMode().getRect()
-				.setY(height / 8 * 5 - vsComputerMenu.getHardMode().getRect().getHeight() / 2);
-		vsComputerMenu.getMultiHardMode().getRect()
-				.setY(height / 8 * 7 - vsComputerMenu.getMultiHardMode().getRect().getHeight() / 2);
-		drawVsComputerMenuRects();
-		drawVsComputerMenuTexts();
+	public int getNotBackgroundColor() {
+		return notBackgroundColor;
 	}
 
-	private void drawVsComputerMenuTexts() {
-		PFont font;
-		font = createFont("Arial", 35);
-		textFont(font);
-		fill(backgroundColor);
-		text(vsComputerMenu.getEasyMode().getText(),
-				vsComputerMenu.getEasyMode().getRect().getX() + vsComputerMenu.getEasyMode().getRect().getWidth() / 2
-						- textWidth(vsComputerMenu.getEasyMode().getText()) / 2,
-				vsComputerMenu.getEasyMode().getRect().getY() + vsComputerMenu.getEasyMode().getRect().getHeight() / 2);
-		text(vsComputerMenu.getNormalMode().getText(),
-				vsComputerMenu.getNormalMode().getRect().getX()
-						+ vsComputerMenu.getNormalMode().getRect().getWidth() / 2
-						- textWidth(vsComputerMenu.getNormalMode().getText()) / 2,
-				vsComputerMenu.getNormalMode().getRect().getY()
-						+ vsComputerMenu.getNormalMode().getRect().getHeight() / 2);
-		text(vsComputerMenu.getHardMode().getText(),
-				vsComputerMenu.getHardMode().getRect().getX() + vsComputerMenu.getHardMode().getRect().getWidth() / 2
-						- textWidth(vsComputerMenu.getHardMode().getText()) / 2,
-				vsComputerMenu.getHardMode().getRect().getY() + vsComputerMenu.getHardMode().getRect().getHeight() / 2);
-		text(vsComputerMenu.getMultiHardMode().getText(),
-				vsComputerMenu.getMultiHardMode().getRect().getX()
-						+ vsComputerMenu.getMultiHardMode().getRect().getWidth() / 2
-						- textWidth(vsComputerMenu.getMultiHardMode().getText()) / 2,
-				vsComputerMenu.getMultiHardMode().getRect().getY()
-						+ vsComputerMenu.getMultiHardMode().getRect().getHeight() / 2);
+	private void setNotBackgroundColor(int notBackgroundColor) {
+		this.notBackgroundColor = notBackgroundColor;
 	}
 
-	private void drawVsComputerMenuRects() {
-		fill(0);
-		noStroke();
-		rect(vsComputerMenu.getEasyMode().getRect().getX(), vsComputerMenu.getEasyMode().getRect().getY(),
-				vsComputerMenu.getEasyMode().getRect().getWidth(), vsComputerMenu.getEasyMode().getRect().getHeight());
-		rect(vsComputerMenu.getNormalMode().getRect().getX(), vsComputerMenu.getNormalMode().getRect().getY(),
-				vsComputerMenu.getNormalMode().getRect().getWidth(),
-				vsComputerMenu.getNormalMode().getRect().getHeight());
-		rect(vsComputerMenu.getHardMode().getRect().getX(), vsComputerMenu.getHardMode().getRect().getY(),
-				vsComputerMenu.getHardMode().getRect().getWidth(), vsComputerMenu.getHardMode().getRect().getHeight());
-		rect(vsComputerMenu.getMultiHardMode().getRect().getX(), vsComputerMenu.getMultiHardMode().getRect().getY(),
-				vsComputerMenu.getMultiHardMode().getRect().getWidth(),
-				vsComputerMenu.getMultiHardMode().getRect().getHeight());
+	public void setMenuModeMain(boolean menuModeMain) {
+		this.menuModeMain = menuModeMain;
 	}
 
-	private void setupVsComputerMenu() {
-		vsComputerMenu.getEasyMode().getRect().setHeight(100);
-		vsComputerMenu.getNormalMode().getRect().setHeight(100);
-		vsComputerMenu.getHardMode().getRect().setHeight(100);
-		vsComputerMenu.getMultiHardMode().getRect().setHeight(100);
-		vsComputerMenu.getEasyMode().getRect().setWidth(300);
-		vsComputerMenu.getNormalMode().getRect().setWidth(300);
-		vsComputerMenu.getHardMode().getRect().setWidth(300);
-		vsComputerMenu.getMultiHardMode().getRect().setWidth(300);
+	private boolean isMenuModeMain() {
+		return menuModeMain;
 	}
 
-	private void setupMainMenu() {
-		menuModeMain = true;
-		mainMenu.getOneVSOne().getRect().setHeight(100);
-		mainMenu.getOneVSComputer().getRect().setHeight(100);
-		mainMenu.getOneVSOne().getRect().setWidth(300);
-		mainMenu.getOneVSComputer().getRect().setWidth(300);
+	public boolean isVSComputerMenu() {
+		return isVSComputerMenu;
+	}
+
+	public void setVSComputerMenu(boolean isVSComputerMenu) {
+		this.isVSComputerMenu = isVSComputerMenu;
+	}
+
+	public boolean isPlayMode() {
+		return playMode;
+	}
+
+	public void setPlayMode(boolean playMode) {
+		this.playMode = playMode;
+	}
+
+	public boolean isMenuModeVsComputer() {
+		return menuModeVsComputer;
+	}
+
+	public void setMenuModeVsComputer(boolean menuModeVsComputer) {
+		this.menuModeVsComputer = menuModeVsComputer;
+	}
+
+	public int getCrazyMode() {
+		return crazyMode;
+	}
+
+	public void setCrazyMode(int crazyMode) {
+		this.crazyMode = crazyMode;
 	}
 }

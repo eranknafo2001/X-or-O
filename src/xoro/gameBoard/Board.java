@@ -20,7 +20,7 @@ public class Board {
 	public Board() {
 		for (int i = 0; i < getRectLength(); i++) {
 			for (int g = 0; g < getRect0Length(); g++) {
-				rect[i][g] = new Rect(0, 0, 0, 0);
+				rect[i][g] = new Rect();
 			}
 		}
 	}

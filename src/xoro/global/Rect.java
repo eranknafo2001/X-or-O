@@ -12,6 +12,20 @@ public class Rect {
 		width = width1;
 		height = height1;
 	}
+	public Rect() {
+		x = 0;
+		y = 0;
+		width = 0;
+		height = 0;
+	}
+	
+	public boolean pointInShape(int x1, int y1) {
+		if (x1 >= x && x1 <= (x + width) && y1 >= y && y1 <= (y + height)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public int getX() {
 		return x;
