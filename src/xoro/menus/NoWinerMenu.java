@@ -9,11 +9,9 @@ import xoro.global.globalButton;
 public class NoWinerMenu {
 	private globalButton back;
 	private XOrO XOrO;
-	private PApplet parent;
 
 	public NoWinerMenu(XOrO XOrO) {
 		this.XOrO = XOrO;
-		parent = XOrO;
 		setBack(new globalButton("Back To The Main Menu", new Rect(), XOrO));
 	}
 
@@ -23,8 +21,8 @@ public class NoWinerMenu {
 	}
 
 	private void drawButtons() {
-		getBack().getRect().setY(parent.height - back.getRect().getHeight());
-		getBack().getRect().setWidth(parent.width);
+		getBack().getRect().setY(XOrO.height - back.getRect().getHeight());
+		getBack().getRect().setWidth(XOrO.width);
 		getBack().recheckTextPosion();
 		drawRects();
 		drawTexts();
@@ -32,31 +30,31 @@ public class NoWinerMenu {
 
 	private void drawTexts() {
 		PFont font;
-		font = parent.createFont("Arial", 35);
-		parent.textFont(font);
-		parent.fill(XOrO.getBackgroundColor());
-		parent.text(getBack().getText(), getBack().getTextPosion(0), getBack().getTextPosion(1));
+		font = XOrO.createFont("Arial", 35);
+		XOrO.textFont(font);
+		XOrO.fill(XOrO.getBackgroundColor());
+		XOrO.text(getBack().getText(), getBack().getTextPosion(0), getBack().getTextPosion(1));
 	}
 
 	private void drawRects() {
-		parent.fill(XOrO.getNotBackgroundColor());
-		parent.noStroke();
-		parent.rect(getBack().getRect().getX(), getBack().getRect().getY(), getBack().getRect().getWidth(),
+		XOrO.fill(XOrO.getNotBackgroundColor());
+		XOrO.noStroke();
+		XOrO.rect(getBack().getRect().getX(), getBack().getRect().getY(), getBack().getRect().getWidth(),
 				getBack().getRect().getHeight());
 	}
 
 	private void drawXAndO() {
-		parent.fill(XOrO.getBackgroundColor());
-		parent.stroke(XOrO.getNotBackgroundColor());
-		parent.strokeWeight(10);
-		parent.pushMatrix();
-		parent.translate(parent.width / 4, parent.height / 2);
-		int size1 = PApplet.min(parent.height, parent.width) / 4 - 15;
-		parent.line(-size1, -size1, size1, size1);
-		parent.line(-size1, size1, size1, -size1);
-		parent.popMatrix();
-		size1 = PApplet.min(parent.height, parent.width) / 2 - 30;
-		parent.ellipse((parent.width / 4) * 3, parent.height / 2, size1, size1);
+		XOrO.fill(XOrO.getBackgroundColor());
+		XOrO.stroke(XOrO.getNotBackgroundColor());
+		XOrO.strokeWeight(10);
+		XOrO.pushMatrix();
+		XOrO.translate(XOrO.width / 4, XOrO.height / 2);
+		int size1 = PApplet.min(XOrO.height, XOrO.width) / 4 - 15;
+		XOrO.line(-size1, -size1, size1, size1);
+		XOrO.line(-size1, size1, size1, -size1);
+		XOrO.popMatrix();
+		size1 = PApplet.min(XOrO.height, XOrO.width) / 2 - 30;
+		XOrO.ellipse((XOrO.width / 4) * 3, XOrO.height / 2, size1, size1);
 	}
 
 	public void setup() {

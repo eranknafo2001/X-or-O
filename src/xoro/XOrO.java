@@ -127,10 +127,11 @@ public class XOrO extends PApplet {
 		isThereWiner = false;
 		isOverNoWiner = false;
 		setVSComputerMenu(true);
-		way1 = false;
 		menuModeMain = false;
 		setMenuModeVsComputer(false);
 		setPlayMode(true);
+		way1 = false;
+		ternsPast = 0;
 		surface.setResizable(true);
 		for (int i = 0; i < place.length; i++) {
 			for (int g = 0; g < place[0].length; g++) {
@@ -552,24 +553,26 @@ public class XOrO extends PApplet {
 								way1 = true;
 								return;
 							} else {
-								for (int i = 0; i < board.getRect0Length(); i += 2) {
-									for (int g = 0; g < board.getRectLength(); g += 2) {
-										if (randomNumTemp[0] == i && randomNumTemp[1] == g) {
-											breakMode = true;
-											isInSide = true;
-											break;
+								if (isPlaceToPutInCornerAndMid()) {
+									for (int i = 0; i < board.getRect0Length(); i += 2) {
+										for (int g = 0; g < board.getRectLength(); g += 2) {
+											if (randomNumTemp[0] == i && randomNumTemp[1] == g) {
+												breakMode = true;
+												isInSide = true;
+												break;
+											}
 										}
+										if (breakMode)
+											break;
 									}
-									if (breakMode)
-										break;
-								}
-								breakMode = false;
-								if (randomNumTemp[0] == 1 && randomNumTemp[1] == 1) {
-									isInSide = true;
-								}
-								if (!isInSide) {
-									coputerPlaceCacoletionHard();
-									return;
+									breakMode = false;
+									if (randomNumTemp[0] == 1 && randomNumTemp[1] == 1) {
+										isInSide = true;
+									}
+									if (!isInSide) {
+										coputerPlaceCacoletionHard();
+										return;
+									}
 								}
 								if (!place[randomNumTemp[0]][randomNumTemp[1]].getIsThereXOrO()) {
 									place[randomNumTemp[0]][randomNumTemp[1]].setThereXOrO(true);

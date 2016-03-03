@@ -9,11 +9,9 @@ import xoro.global.globalButton;
 public class XWinMenu {
 	private globalButton back;
 	private XOrO XOrO;
-	private PApplet parent;
 
 	public XWinMenu(XOrO XOrO) {
 		this.XOrO = XOrO;
-		parent = XOrO;
 		setBack(new globalButton("Back To The Main Menu", new Rect(), XOrO));
 	}
 
@@ -28,8 +26,8 @@ public class XWinMenu {
 	}
 
 	private void drawButtons() {
-		getBack().getRect().setY(parent.height - getBack().getRect().getHeight());
-		getBack().getRect().setWidth(parent.width);
+		getBack().getRect().setY(XOrO.height - getBack().getRect().getHeight());
+		getBack().getRect().setWidth(XOrO.width);
 		getBack().recheckTextPosion();
 		drawRects();
 		drawTexts();
@@ -37,29 +35,29 @@ public class XWinMenu {
 
 	private void drawTexts() {
 		PFont font;
-		font = parent.createFont("Arial", 35);
-		parent.textFont(font);
-		parent.fill(XOrO.getBackgroundColor());
-		parent.text(getBack().getText(), getBack().getTextPosion(0), getBack().getTextPosion(1));
+		font = XOrO.createFont("Arial", 35);
+		XOrO.textFont(font);
+		XOrO.fill(XOrO.getBackgroundColor());
+		XOrO.text(getBack().getText(), getBack().getTextPosion(0), getBack().getTextPosion(1));
 	}
 
 	private void drawRects() {
-		parent.fill(XOrO.getNotBackgroundColor());
-		parent.noStroke();
-		parent.rect(getBack().getRect().getX(), getBack().getRect().getY(), getBack().getRect().getWidth(),
+		XOrO.fill(XOrO.getNotBackgroundColor());
+		XOrO.noStroke();
+		XOrO.rect(getBack().getRect().getX(), getBack().getRect().getY(), getBack().getRect().getWidth(),
 				getBack().getRect().getHeight());
 	}
 
 	public void drawX() {
-		parent.pushMatrix();
-		parent.translate(parent.width / 2, (parent.height - getBack().getRect().getHeight()) / 2);
-		parent.fill(XOrO.getNotBackgroundColor());
-		parent.stroke(XOrO.getNotBackgroundColor());
-		parent.strokeWeight(10);
-		int size1 = PApplet.min(parent.height, parent.width) / 2 - 75;
-		parent.line(-size1, -size1, size1, size1);
-		parent.line(-size1, size1, size1, -size1);
-		parent.popMatrix();
+		XOrO.pushMatrix();
+		XOrO.translate(XOrO.width / 2, (XOrO.height - getBack().getRect().getHeight()) / 2);
+		XOrO.fill(XOrO.getNotBackgroundColor());
+		XOrO.stroke(XOrO.getNotBackgroundColor());
+		XOrO.strokeWeight(10);
+		int size1 = PApplet.min(XOrO.height, XOrO.width) / 2 - 75;
+		XOrO.line(-size1, -size1, size1, size1);
+		XOrO.line(-size1, size1, size1, -size1);
+		XOrO.popMatrix();
 	}
 
 	public globalButton getBack() {

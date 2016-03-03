@@ -1,6 +1,5 @@
 package xoro.menus;
 
-import processing.core.PApplet;
 import processing.core.PFont;
 import xoro.XOrO;
 import xoro.global.Rect;
@@ -9,14 +8,12 @@ import xoro.global.globalButton;
 public class MainMenu {
 	private globalButton OneVSOne, OneVSComputer, crazyMode;
 	private String mainMenu = "Main Menu";
-	private PApplet parent;
 	private XOrO XOrO;
 
 	
 
 	
 	public MainMenu(XOrO XOrO) {
-		parent = XOrO;
 		this.XOrO = XOrO;
 		OneVSOne = new globalButton("1 VS 1", new Rect(), XOrO);
 		OneVSComputer = new globalButton("1 VS Computer", new Rect(), XOrO);
@@ -40,10 +37,10 @@ public class MainMenu {
 	}
 
 	public void draw() {
-		getOneVSOne().getRect().setX(parent.width / 2 - getOneVSOne().getRect().getWidth() / 2);
-		getOneVSComputer().getRect().setX(parent.width / 2 - getOneVSComputer().getRect().getWidth() / 2);
-		getOneVSOne().getRect().setY(parent.height / 4 * 2 - getOneVSOne().getRect().getHeight() / 2);
-		getOneVSComputer().getRect().setY(parent.height / 4 * 3 - getOneVSComputer().getRect().getHeight() / 2);
+		getOneVSOne().getRect().setX(XOrO.width / 2 - getOneVSOne().getRect().getWidth() / 2);
+		getOneVSComputer().getRect().setX(XOrO.width / 2 - getOneVSComputer().getRect().getWidth() / 2);
+		getOneVSOne().getRect().setY(XOrO.height / 4 * 2 - getOneVSOne().getRect().getHeight() / 2);
+		getOneVSComputer().getRect().setY(XOrO.height / 4 * 3 - getOneVSComputer().getRect().getHeight() / 2);
 		getCrazyMode().getRect().setX(0);
 		getCrazyMode().getRect().setY(0);
 		getOneVSOne().recheckTextPosion();
@@ -55,25 +52,25 @@ public class MainMenu {
 
 	private void drawTexts() {
 		PFont font;
-		font = parent.createFont("Arial", 35);
-		parent.textFont(font);
-		parent.fill(XOrO.getNotBackgroundColor());
-		parent.text(getMainMenu(), parent.width / 2 - parent.textWidth(getMainMenu()) / 2, parent.height / 4);
-		parent.fill(XOrO.getBackgroundColor());
-		parent.text(getOneVSComputer().getText(), getOneVSComputer().getTextPosion(0),
+		font = XOrO.createFont("Arial", 35);
+		XOrO.textFont(font);
+		XOrO.fill(XOrO.getNotBackgroundColor());
+		XOrO.text(getMainMenu(), XOrO.width / 2 - XOrO.textWidth(getMainMenu()) / 2, XOrO.height / 4);
+		XOrO.fill(XOrO.getBackgroundColor());
+		XOrO.text(getOneVSComputer().getText(), getOneVSComputer().getTextPosion(0),
 				getOneVSComputer().getTextPosion(1));
-		parent.text(getOneVSOne().getText(), getOneVSOne().getTextPosion(0), getOneVSOne().getTextPosion(1));
-		parent.text(getCrazyMode().getText(), getCrazyMode().getTextPosion(0), getCrazyMode().getTextPosion(1));
+		XOrO.text(getOneVSOne().getText(), getOneVSOne().getTextPosion(0), getOneVSOne().getTextPosion(1));
+		XOrO.text(getCrazyMode().getText(), getCrazyMode().getTextPosion(0), getCrazyMode().getTextPosion(1));
 	}
 
 	private void drawRects() {
-		parent.fill(XOrO.getNotBackgroundColor());
-		parent.noStroke();
-		parent.rect(getOneVSComputer().getRect().getX(), getOneVSComputer().getRect().getY(),
+		XOrO.fill(XOrO.getNotBackgroundColor());
+		XOrO.noStroke();
+		XOrO.rect(getOneVSComputer().getRect().getX(), getOneVSComputer().getRect().getY(),
 				getOneVSComputer().getRect().getWidth(), getOneVSComputer().getRect().getHeight());
-		parent.rect(getOneVSOne().getRect().getX(), getOneVSOne().getRect().getY(), getOneVSOne().getRect().getWidth(),
+		XOrO.rect(getOneVSOne().getRect().getX(), getOneVSOne().getRect().getY(), getOneVSOne().getRect().getWidth(),
 				getOneVSOne().getRect().getHeight());
-		parent.rect(getCrazyMode().getRect().getX(), getCrazyMode().getRect().getY(),
+		XOrO.rect(getCrazyMode().getRect().getX(), getCrazyMode().getRect().getY(),
 				getCrazyMode().getRect().getWidth(), getCrazyMode().getRect().getHeight());
 	}
 
