@@ -14,7 +14,7 @@ public class gamePlace {
 	}
 
 	public void setThereX(boolean isThereX) {
-		this.isThereX = isThereX;
+		this.isThereX = isThereX;		
 	}
 
 	public boolean getIsThereXOrO() {
